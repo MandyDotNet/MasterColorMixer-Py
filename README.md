@@ -13,8 +13,8 @@
   <li><a href="#plan">Two-Sprint Plan</a></li>
   <li><a href="#backlog">Personal Backlog</a></li>
   <li><a href="#trends">Trends Note</a></li>
-  <li><a href="#run">How to Run Locally</a></li>
   <li><a href="#srs">Software Requirements Specification (SRS)</a></li>
+  <li><a href="#run">How to Run Locally</a></li>
 </ol>
 
 <h2 id="charter">Project Charter</h2>
@@ -188,4 +188,46 @@
   </tbody>
 </table>
 
+<h2 id="trends">Trends Note</h2>
+<p>
+  Educational apps have shifted from install-heavy desktops to accessible, browser-first experiences. This project follows modern patterns: a lightweight async API (FastAPI), local persistence (SQLite), and a minimal web UI with drag-and-drop. Text-To-Speech (TTS) is supported via a small Python library (pyttsx3).
+</p>
 
+<p>
+  <strong>Past Practices:</strong>
+  In my professional experience as a full-stack developer for over four years, working on a large-scale web application built with <em>C#, Azure, SQL, and Angular</em>. We operated in a highly Agile environment using the <em>Scrum framework</em>. We held daily stand-ups, bi-weekly user story refinement sessions, bi-weekly sprint planning sessions, and quarterly retrospective sessions to coordinate our efforts to being Agile. This structure created rhythm and accountability, but it also showed the problems in scaling Agile within multi-team settings. This was especially pronounced when management wanted to leverage parallel development, or overlapping of ownership caused dependencies across sprints. My experiences as a professional taught me that Agile is most effective when roles, responsibilities, and communication channels remain clear, as well as when iteration speed is balanced with thoughtful coordination.
+</p>
+
+<p>
+  <strong>Current Practices:</strong>
+    The industry has moved more toward <em>Agile methodologies</em>. Modern development emphasizes short, iterative cycles, working software with minimal documentation (API documentation is necessary), and close collaboration between developers. Scrum and other frameworks encourage time-boxed sprints, clear roles, and continuous stakeholder input. In this solo project, Agile principles remain valuable. I will use: User stories to define scope, sprints create cadence, and retrospectives improve focus. I will apply these practices by maintaining a living backlog, writing user stories, and conducting sprint reviews by analysing notes for each week, at the end of Weeks 4 and 7, to assess progress, quality, and lessons learned. 
+</p>
+
+<p>
+  <strong>Near-Future Practices:</strong>
+  Agile is evolving toward automation. Tools now automate backlog grooming, peer reviews, test coverage, and pipeline builds/releases. I intend to mirror this direction by using lightweight automation—version control, task tracking, and continuous testing to maintain visibility and reliability in my solo workflow. 
+</p>
+
+<p>
+  <strong>Adopted Approach:</strong>
+  For this 8-week course, I will combine Agile’s adaptability with disciplined documentation from traditional SDLC. Each sprint will conclude with tangible deliverables and showcase modern project management.
+</p>
+
+<h2 id="srs">SRS Requirements & Traceability</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Req ID</th><th>Description</th><th>API/UI Mapping</th><th>Backlog Link</th><th>Test</th>
+    </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
+
+<h2 id="run">How to Run Locally</h2>
+
+<details>
+  <summary><strong>Quick start (one command)</strong></summary>
+  <p>To Be Determined</p>
+</details>

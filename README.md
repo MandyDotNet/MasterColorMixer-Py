@@ -142,5 +142,50 @@
 
 <p><em>Week 8 (post-sprint):</em> Final integration, passing test suite, documentation pack in <code>docs/</code>, short user guide, packaging instructions, presentation video, and a release tag.</p>
 
+<h2 id="backlog">Personal Backlog</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th><th>User Story</th><th>Acceptance Criteria</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>US01</td><td>As a developer, I want to define the project’s **purpose, stakeholders, risks, and success criteria**, so that I have a clear charter for my project.</td><td>
+      A 500-word Project Charter exists in README.md and covers all four required sections.</td></tr>
+    <tr><td>US02</td><td>As a developer, I want to **create an SRS (scope, requirements, and traceability)** so that all future work is tied to testable REQ-IDs.</td><td>
+      SRS (750–1000 words) includes numbered REQ-IDs, class + sequence diagrams, and traceability table.</td></tr>
+    <tr><td>US03</td><td>As a developer, I want to **choose an architecture (monolith or microservice)** and document it, so that implementation is consistent and justified for a solo project.</td><td>
+      ADR created in `/docs/adr/0001-architecture.md` following lightweight ADR format with context, decision, consequences, and rationale.</td></tr>
+    <tr><td>US04</td><td>As a developer, I want to **prototype the main user flow** (mixing two colors and hearing a sound), so that I can validate usability before coding.</td><td>
+      Two paper prototype walkthroughs (each with an alternative path) included in README, tagged to REQ-IDs.</td></tr>
+    <tr><td>US05</td><td>As a developer, I want to **evaluate inclusivity and accessibility** of my UI flows, so that the app is usable for all toddlers.</td><td>
+      Inclusivity heuristic review documented with REQ-IDs, severity, proposed fixes, and annotated screenshots.</td></tr>
+    <tr><td>US06</td><td>As a developer, I want to **establish a working project skeleton** (repo, packages, “hello world” endpoint, and passing test), so that I have a base to build upon.</td><td>
+      Directory structure created with FastAPI `main.py`, test placeholder passes, quickstart instructions verified.</td></tr>
+    <tr><td>US07</td><td>As a user, I want to see 3 base colors so I can start mixing.I want to hear a color’s name on tap/click.</td><td>
+      On load, 3 color spheres appear; each clickable; clicking any sphere triggers correct audio output.</td></tr>
+    <tr><td>US08</td><td>As a user, I want to drag exactly two colors into a bowl to mix. I want to be able to move a color out of the bowl.</td><td>
+      UI drag-drop works with exactly two inputs; third color blocked.</td></tr>
+    <tr><td>US09</td><td>As a user, I want to **see and hear the name of the mixed color**, so that I can connect color and language learning.</td><td>
+      API returns hex + name; new sphere displays in bowl.</td></tr>
+    <tr><td>US10</td><td>As a user, I want to **unlock and save new colors** (up to 20 total) so that I can expand my palette.</td><td>
+      SQLite session stores unlocked colors; capped at 20;</td></tr>
+    <tr><td>US11</td><td>As a user, I want to **reset the mixing area** so that I can start a new mix anytime.I want to **reset the color palette** so that I can "discover" colors again.</td><td>
+      “Clear” button resets UI and re-enables drag-drop; "Clear Palette" button reset the color palette to the basic colors.</td></tr>
+    <tr><td>US12</td><td>As a developer, I want to **analyze and benchmark data structures** (DynamicArray, Stack, Queue, HashSet), so I can choose efficient tools for my app.</td><td>
+      DS package implemented with tests and timeit benchmarks; analysis report (~500 words) included.</td></tr>
+    <tr><td>US13</td><td>As a developer, I want to **implement core algorithms** (binary search, mergesort, quicksort), so that I can sort or search within my color data efficiently.</td><td>
+      Algorithms coded in `alg/` package; at least one used in app; tested and documented in quality memo.</td></tr>
+    <tr><td>US14</td><td>As a developer, I want to **perform a quality assessment and refactor if needed**, so that the final codebase is maintainable and evidence-based.</td><td>
+      500-word memo with smells/hotspots evidence; either change or defend no change; all tests passing.</td></tr>
+    <tr><td>US15</td><td>As a developer, I want to **add a major feature tied to ≥3 REQ-IDs** and merge it through a full PR workflow, so that my app grows incrementally and professionally.</td><td>
+      Major feature branch → PR → review → merge; feature implements at least 3 REQ-IDs; self-review note included.</td></tr>
+    <tr><td>US16</td><td>As a developer, I want to **debug one real issue using `pdb`**, so I can practice professional debugging techniques.</td><td>
+      Short note included with commands and lesson learned.</td></tr>
+    <tr><td>US17</td><td>As a developer, I want to **assemble final documentation, tests, and presentation**, so that my final submission meets all Week 8 deliverables.</td><td>
+      Final docs (SRS, UML, ADR, inclusivity review, DS/alg results, user guide, and 5-min video) committed and release tagged.</td></tr>
+  </tbody>
+</table>
 
 

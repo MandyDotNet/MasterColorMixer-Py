@@ -213,17 +213,107 @@
   For this 8-week course, I will combine Agile’s adaptability with disciplined documentation from traditional SDLC. Each sprint will conclude with tangible deliverables and showcase modern project management.
 </p>
 
-<h2 id="srs">SRS Requirements & Traceability</h2>
+<h2 id="srs">Software Requirements Specification (SRS)</h2>
 
+<h3>1. Scope</h3>
+<p>
+  <em>MasterColorMixer</em> is an educational color-mixing web application designed for toddlers (ages 2–5). The goal is to teach basic color recognition and mixing concepts through play. Users interact with draggable color “spheres,” mix them in a bowl, and hear the resulting color name through text-to-speech. The system provides a safe, intuitive, and accessible environment that supports up to 20 unlockable colors. The application demonstrates solid software design and modern Agile/SDLC practices within a small-scale, single-developer project.
+</p>
+
+<h3>2. Stakeholders</h3>
+<ul>
+  <li><strong>Primary Users:</strong> Toddlers aged 2–5 who will interact visually and audibly with the color-mixing UI.</li>
+  <li><strong>Secondary Stakeholders:</strong> Parents, guardians, or teachers who supervise use and evaluate learning value.</li>
+  <li><strong>Developer:</strong> Amanda Crotty – responsible for design, implementation, testing, and documentation.</li>
+  <li><strong>Instructor:</strong> Franklin Castillo – academic evaluator ensuring deliverables meet SDLC and Agile standards.</li>
+</ul>
+
+<h3>3. Assumptions and Constraints</h3>
+<ul>
+  <li>The application will be developed and tested locally using Python 3.12+, FastAPI, and a minimal browser-based front-end.</li>
+  <li>No external backend or authentication will be used; local persistence will rely on SQLite or JSON storage.</li>
+  <li>The UI must function on standard desktop browsers and ideally touchscreen devices (tablet, PC, or hybrid PCs).</li>
+  <li>All text-to-speech operations use a local library (<code>pyttsx3</code>) to avoid internet dependency.</li>
+  <li>The system must remain simple enough to deploy in a classroom or home environment without technical setup.</li>
+  <li>The project is constrained to an 8-week academic sprint cycle, with an average of 18 hours per week available.</li>
+</ul>
+
+<h3>4. Functional Requirements</h3>
+
+<ol>
+  <li id="REQ-1"><strong>REQ-1:</strong> The system shall display three base colors (red, blue, yellow) upon startup.</li>
+  <li id="REQ-2"><strong>REQ-2:</strong> The user shall be able to click or tap a color sphere to hear its spoken name.</li>
+  <li id="REQ-3"><strong>REQ-3:</strong> The user shall be able to drag and drop up to two color spheres into a mixing area.</li>
+  <li id="REQ-4"><strong>REQ-4:</strong> When two colors are mixed, the system shall generate a resulting color using a mixing algorithm and display the new color sphere.</li>
+  <li id="REQ-5"><strong>REQ-5:</strong> The system shall play the mixed color’s spoken name immediately after mixing.</li>
+  <li id="REQ-6"><strong>REQ-6:</strong> The system shall store discovered colors (up to 20 total) in a persistent local session.</li>
+  <li id="REQ-7"><strong>REQ-7:</strong> The user shall have a “Clear Mix” button to reset the mixing bowl without restarting the app.</li>
+  <li id="REQ-8"><strong>REQ-8:</strong> The user shall have a “Clear Palette” button to reset all unlocked colors to the three base colors.</li>
+  <li id="REQ-9"><strong>REQ-9:</strong> The application shall expose an HTTP API (FastAPI) supporting color retrieval, mix operations, and TTS requests.</li>
+  <li id="REQ-10"><strong>REQ-10:</strong> The application shall support accessibility by maintaining high-contrast visuals and audible reinforcement.</li>
+  <li id="REQ-11"><strong>REQ-11:</strong> The system shall handle invalid or excessive drag events gracefully (prevent mixing three colors).</li>
+  <li id="REQ-12"><strong>REQ-12:</strong> The system shall provide feedback (sound or UI highlight) when actions are completed successfully or blocked.</li>
+  <li id="REQ-13"><strong>REQ-13:</strong> The system shall use a simple color-mixing algorithm that maps RGB averages or predefined combinations.</li>
+  <li id="REQ-14"><strong>REQ-14:</strong> The developer shall provide a complete set of unit tests for API endpoints, color logic, and persistence.</li>
+  <li id="REQ-15"><strong>REQ-15:</strong> The system shall be runnable locally with one command (<code>python main.py</code>).</li>
+</ol>
+
+<h3>5. Nonfunctional Requirements</h3>
+<ol>
+  <li id="REQ-16"><strong>REQ-16:</strong> Performance – App shall respond to user input (drag, click, or mix) within 500ms on a typical desktop or tablet.</li>
+  <li id="REQ-17"><strong>REQ-17:</strong> Usability – UI elements shall be large enough for toddler interaction (minimum 100px diameter color spheres).</li>
+  <li id="REQ-18"><strong>REQ-18:</strong> Accessibility – Colors shall maintain contrast ratios suitable for visual accessibility.</li>
+  <li id="REQ-19"><strong>REQ-19:</strong> Reliability – App shall preserve unlocked colors across restarts within a session.</li>
+  <li id="REQ-20"><strong>REQ-20:</strong> Maintainability – Code shall follow modular and SOLID principles to allow easy modification or testing.</li>
+  <li id="REQ-21"><strong>REQ-21:</strong> Portability – App shall run cross-platform (Windows, macOS, Linux) with minimal setup.</li>
+  <li id="REQ-22"><strong>REQ-22:</strong> Security – The app shall not collect or transmit any personal or identifying data.</li>
+</ol>
+
+<h3>6. Acceptance Criteria</h3>
+<ul>
+  <li>All REQ-IDs from REQ-1 to REQ-22 are implemented and tested through functional tests and demonstration video.</li>
+  <li>The app runs locally and exhibits correct speech output and color mixing.</li>
+  <li>Drag-and-drop interactions are smooth and restricted to two active items.</li>
+  <li>Clear buttons perform their reset functions without data loss or error.</li>
+  <li>All documentation (README, SRS, UML, ADR, and Inclusivity Review) are complete and linked in the repository.</li>
+  <li>All implemented features trace directly to one or more REQ-IDs and corresponding user stories.</li>
+</ul>
+
+<h3>7. Glossary</h3>
+<ul>
+  <li><strong>Base Colors:</strong> The three primary colors—red, blue, and yellow—available at game start.</li>
+  <li><strong>Mixed Color:</strong> A color resulting from combining two base or unlocked colors.</li>
+  <li><strong>Palette:</strong> The current collection of available color spheres.</li>
+  <li><strong>Mixing Bowl:</strong> The interactive drop zone for combining two colors.</li>
+  <li><strong>TTS (Text-to-Speech):</strong> The component that audibly announces color names.</li>
+  <li><strong>FastAPI:</strong> A Python framework used to expose HTTP routes for the application’s backend logic.</li>
+  <li><strong>SQLite:</strong> A lightweight relational database used for local persistence.</li>
+</ul>
+
+<h3>8. Requirements Traceability Table</h3>
 <table>
   <thead>
     <tr>
-      <th>Req ID</th><th>Description</th><th>API/UI Mapping</th><th>Backlog Link</th><th>Test</th>
+      <th>Req ID</th><th>Description</th><th>API/UI Mapping</th><th>User Story</th><th>Planned Test</th>
     </tr>
   </thead>
   <tbody>
+    <tr><td>REQ-1</td><td>Display 3 base colors</td><td>UI startup</td><td>US07</td><td>Test_UI_Load_BaseColors</td></tr>
+    <tr><td>REQ-2</td><td>Play color name on click</td><td>TTS module</td><td>US07</td><td>Test_TTS_ColorNames</td></tr>
+    <tr><td>REQ-3</td><td>Drag two colors to mix</td><td>Drag/Drop event</td><td>US08</td><td>Test_UI_DragMix</td></tr>
+    <tr><td>REQ-4</td><td>Generate and display new color</td><td>Mixing logic</td><td>US09</td><td>Test_MixAlgorithm</td></tr>
+    <tr><td>REQ-5</td><td>Speak new color name</td><td>TTS call</td><td>US09</td><td>Test_TTS_MixFeedback</td></tr>
+    <tr><td>REQ-6</td><td>Persist discovered colors</td><td>SQLite session</td><td>US10</td><td>Test_DB_Persistence</td></tr>
+    <tr><td>REQ-7</td><td>Clear mix area</td><td>UI button</td><td>US11</td><td>Test_ClearMix</td></tr>
+    <tr><td>REQ-8</td><td>Reset color palette</td><td>UI button</td><td>US11</td><td>Test_ClearPalette</td></tr>
+    <tr><td>REQ-9</td><td>Provide API endpoints</td><td>FastAPI routes</td><td>US06, US09</td><td>Test_API_Endpoints</td></tr>
+    <tr><td>REQ-10</td><td>Maintain accessibility and audio feedback</td><td>UI contrast + TTS</td><td>US05, US07</td><td>Accessibility_Test</td></tr>
+    <tr><td>REQ-13</td><td>Mixing algorithm for colors</td><td>Backend logic</td><td>US13, US15</td><td>Test_MixFunction</td></tr>
+    <tr><td>REQ-14</td><td>Unit testing coverage</td><td>Testing framework</td><td>US06, US12, US13</td><td>Pytest_Suite</td></tr>
+    <tr><td>REQ-15</td><td>One-command run</td><td>CLI entry</td><td>US06, US17</td><td>Test_Run_Local</td></tr>
   </tbody>
 </table>
+
 
 <h2 id="run">How to Run Locally</h2>
 

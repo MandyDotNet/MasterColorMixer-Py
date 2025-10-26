@@ -15,6 +15,7 @@
   <li><a href="#trends">Trends Note</a></li>
   <li><a href="#srs">Software Requirements Specification (SRS)</a></li>
   <li><a href="#uml">UML Artifacts</a></li>
+  <li><a href="#data">Data Model</a></li>
   <li><a href="#trace">Traceability Table</a></li>
   <li><a href="#run">How to Run Locally</a></li>
 </ol>
@@ -346,6 +347,12 @@ The diagrams linked below model the core domain and flows for <em>MasterColorMix
     <li>Controller triggers <code>ITTS.speak(resultColor.name)</code>; UI shows new color.</li>
     <li><strong>Alt paths:</strong> palette cap reached → non-blocking notice; third drag → bowl blocks.</li>
   </ul>
+</ul>
+
+<h2 id="data">Data Model</h2>
+<ul>
+  <li><a href="docs/erd.md" target="_blank" rel="noopener">Crow’s-Foot ERD (docs/erd.md)</a></li>
+  <li><a href="docs/data-dictionary.md" target="_blank" rel="noopener">Data Dictionary (docs/data-dictionary.md)</a></li>
 </ul>
 
 <h2 id="trace">Requirements Traceability Table</h2>

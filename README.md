@@ -15,6 +15,7 @@
   <li><a href="#trends">Trends Note</a></li>
   <li><a href="#srs">Software Requirements Specification (SRS)</a></li>
   <li><a href="#uml">UML Artifacts</a></li>
+  <li><a href="#trace">Traceability Table</a></li>
   <li><a href="#run">How to Run Locally</a></li>
 </ol>
 
@@ -291,30 +292,6 @@
   <li><strong>SQLite:</strong> A lightweight relational database used for local persistence.</li>
 </ul>
 
-<h3>8. Requirements Traceability Table</h3>
-<table>
-  <thead>
-    <tr>
-      <th>Req ID</th><th>Description</th><th>API/UI Mapping</th><th>User Story</th><th>Planned Test</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>REQ-1</td><td>Display 3 base colors</td><td>UI startup</td><td>US07</td><td>Test_UI_Load_BaseColors</td></tr>
-    <tr><td>REQ-2</td><td>Play color name on click</td><td>TTS module</td><td>US07</td><td>Test_TTS_ColorNames</td></tr>
-    <tr><td>REQ-3</td><td>Drag two colors to mix</td><td>Drag/Drop event</td><td>US08</td><td>Test_UI_DragMix</td></tr>
-    <tr><td>REQ-4</td><td>Generate and display new color</td><td>Mixing logic</td><td>US09</td><td>Test_MixAlgorithm</td></tr>
-    <tr><td>REQ-5</td><td>Speak new color name</td><td>TTS call</td><td>US09</td><td>Test_TTS_MixFeedback</td></tr>
-    <tr><td>REQ-6</td><td>Persist discovered colors</td><td>SQLite session</td><td>US10</td><td>Test_DB_Persistence</td></tr>
-    <tr><td>REQ-7</td><td>Clear mix area</td><td>UI button</td><td>US11</td><td>Test_ClearMix</td></tr>
-    <tr><td>REQ-8</td><td>Reset color palette</td><td>UI button</td><td>US11</td><td>Test_ClearPalette</td></tr>
-    <tr><td>REQ-9</td><td>Provide API endpoints</td><td>FastAPI routes</td><td>US06, US09</td><td>Test_API_Endpoints</td></tr>
-    <tr><td>REQ-10</td><td>Maintain accessibility and audio feedback</td><td>UI contrast + TTS</td><td>US05, US07</td><td>Accessibility_Test</td></tr>
-    <tr><td>REQ-13</td><td>Mixing algorithm for colors</td><td>Backend logic</td><td>US13, US15</td><td>Test_MixFunction</td></tr>
-    <tr><td>REQ-14</td><td>Unit testing coverage</td><td>Testing framework</td><td>US06, US12, US13</td><td>Pytest_Suite</td></tr>
-    <tr><td>REQ-15</td><td>One-command run</td><td>CLI entry</td><td>US06, US17</td><td>Test_Run_Local</td></tr>
-  </tbody>
-</table>
-
 <h2 id="uml">UML Artifacts</h2>
 
 <p>
@@ -371,6 +348,29 @@ The diagrams linked below model the core domain and flows for <em>MasterColorMix
   </ul>
 </ul>
 
+<h2 id="trace">Requirements Traceability Table</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Req ID</th><th>Description</th><th>API/UI Mapping</th><th>User Story</th><th>Planned Test</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>REQ-1</td><td>Display 3 base colors</td><td>UI startup</td><td>US07</td><td>Test_UI_Load_BaseColors</td></tr>
+    <tr><td>REQ-2</td><td>Play color name on click</td><td>TTS module</td><td>US07</td><td>Test_TTS_ColorNames</td></tr>
+    <tr><td>REQ-3</td><td>Drag two colors to mix</td><td>Drag/Drop event</td><td>US08</td><td>Test_UI_DragMix</td></tr>
+    <tr><td>REQ-4</td><td>Generate and display new color</td><td>Mixing logic</td><td>US09</td><td>Test_MixAlgorithm</td></tr>
+    <tr><td>REQ-5</td><td>Speak new color name</td><td>TTS call</td><td>US09</td><td>Test_TTS_MixFeedback</td></tr>
+    <tr><td>REQ-6</td><td>Persist discovered colors</td><td>SQLite session</td><td>US10</td><td>Test_DB_Persistence</td></tr>
+    <tr><td>REQ-7</td><td>Clear mix area</td><td>UI button</td><td>US11</td><td>Test_ClearMix</td></tr>
+    <tr><td>REQ-8</td><td>Reset color palette</td><td>UI button</td><td>US11</td><td>Test_ClearPalette</td></tr>
+    <tr><td>REQ-9</td><td>Provide API endpoints</td><td>FastAPI routes</td><td>US06, US09</td><td>Test_API_Endpoints</td></tr>
+    <tr><td>REQ-10</td><td>Maintain accessibility and audio feedback</td><td>UI contrast + TTS</td><td>US05, US07</td><td>Accessibility_Test</td></tr>
+    <tr><td>REQ-13</td><td>Mixing algorithm for colors</td><td>Backend logic</td><td>US13, US15</td><td>Test_MixFunction</td></tr>
+    <tr><td>REQ-14</td><td>Unit testing coverage</td><td>Testing framework</td><td>US06, US12, US13</td><td>Pytest_Suite</td></tr>
+    <tr><td>REQ-15</td><td>One-command run</td><td>CLI entry</td><td>US06, US17</td><td>Test_Run_Local</td></tr>
+  </tbody>
+</table>
 
 <h2 id="run">How to Run Locally</h2>
 

@@ -16,8 +16,8 @@
 ### Notes on Constraints
 - **Uniqueness:** `colors.name` and `colors.hex` are unique (prevents duplicates).
 - **Composite PK:** `unlocked_colors (session_id, color_id)` prevents unlocking the same color twice per session.
-- **Referential Integrity:** All FKs use `ON DELETE CASCADE` (recommended) so deleting a session removes related unlocks and events.
-- **Application Rule:** Max **20 unlocked colors per session** is enforced in the service layer (SQLite can also use a trigger; see Data Dictionary for an optional example).
+- **Referential Integrity:** All FKs use `ON DELETE CASCADE` deleting a session removes related unlocks and events.
+- **Application Rule:** Max **20 unlocked colors per session** is enforced in the service layer (SQLite can also use a trigger).
 
 erDiagram
     SESSIONS ||--o{ UNLOCKED_COLORS : "has"
@@ -52,3 +52,4 @@ erDiagram
       INTEGER result_color_id FK
       DATETIME occurred_at
     }
+

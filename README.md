@@ -322,6 +322,7 @@ The diagrams linked below model the core domain and flows for <em>MasterColorMix
 </p>
 
 <ul>
+  <h3>Class Diagram</h3>
   <li><a href="docs/uml/mcm_class_diagram.png" target="_blank" rel="noopener">Class Diagram — Domain Model & Public Interfaces</a></li>
   <ul>
     <li><strong>Separation of Concerns</strong> — UI, business logic, persistence, and speech are split into distinct components.</li>
@@ -333,11 +334,41 @@ The diagrams linked below model the core domain and flows for <em>MasterColorMix
   </li>
   <li><strong>Testability & Maintainability</strong> — Interfaces enable mocking in unit tests (ex: mock <code>ITTS</code> to verify calls without playing audio). Clear boundaries reduce coupling and help meet <em>REQ-20</em>.</li>
   <li><strong>Extensibility</strong> — Swap <code>SQLiteColorRepo</code> for another store, or <code>Pyttsx3TTS</code> for a different speech engine, without changing controllers or UI code.</li>
-
   <li><strong>Consistent User Experience</strong> — Controller coordinates validation and feedback ( bowl capacity, color max reached, or TTS unavailable) while services keep logic consistent across UI paths.</li>
+    <li><strong>Requirements Alignment</strong>
+    <ul>
+      <li><em>REQ-9:</em> FastAPI routes are centralized in <code>ColorController</code>, which orchestrates services via interfaces.</li>
+      <li><em>REQ-13:</em> <code>MixerService</code> encapsulates the mixing algorithm.</li>
+      <li><em>REQ-20:</em> Modular design with interfaces supports easy refactoring and testing.</li>
+      <li><em>REQ-21:</em> Minimal external dependencies and clean boundaries aid portability varying OS.</li>
+      <li><em>REQ-22:</em> TTS and storage layers are local; no personal data is transmitted.</li>
+    </ul>
+  </li>
 </ul>
+
+<ul>
+  <h3>Sequence Diagram 1 — Tap to Speak</h3>
   <li><a href="docs/uml/mcm_sequence_1_tap_to_speak.png" target="_blank" rel="noopener">Sequence Diagram 1 — Tap To Speak (alt: TTS unavailable)</a></li>
+  <ul>
+    <li>User taps a color in the <em>PaletteView</em>.</li>
+    <li>UI calls <code>POST /speak</code> on <em>ColorController</em>.</li>
+    <li>Controller checks TTS availability.</li>
+    <li><strong>If available:</strong> <code>ITTS.speak(name)</code> plays the color name aloud.</li>
+    <li><strong>Else:</strong> UI shows gentle visual feedback (highlight/tooltip).</li>
+  </ul>
+<p><em>Supports:</em> REQ-2, REQ-10, REQ-12.</p>
+</ul>
+<ul>
+  <h3>Sequence Diagram 2 — Mix Two Colors</h3>
   <li><a href="docs/uml/mcm_sequence_2_mix_two_colors.png" target="_blank" rel="noopener">Sequence Diagram 2 — Mix Two Colors (alts: cap reached, third drag blocked)</a></li>
+  <ul>
+    <li>User drags two colors into the <em>MixingBowlView</em> (bowl holds max two).</li>
+    <li>UI calls <code>POST /mix</code> on <em>ColorController</em>.</li>
+    <li>Controller asks <em>IMixer</em>/<em>MixerService</em> to compute the result.</li>
+    <li>Controller gets session id, saves unlocked color via <em>IColorRepo</em> (if under cap).</li>
+    <li>Controller triggers <code>ITTS.speak(resultColor.name)</code>; UI shows new color.</li>
+    <li><strong>Alt paths:</strong> palette cap reached → non-blocking notice; third drag → bowl blocks.</li>
+  </ul>
 </ul>
 
 

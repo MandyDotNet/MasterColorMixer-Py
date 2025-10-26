@@ -321,6 +321,25 @@
 The diagrams linked below model the core domain and flows for <em>MasterColorMixer</em>. Interfaces (ports) and concrete adapters are shown to keep the design testable and modular (supports REQ-20 Maintainability). Public operations are listed for each class that is used by other components or exposed via the API (supports REQ-9).
 </p>
 
+<ul>
+  <li><a href="docs/uml/mcm_class_diagram.png" target="_blank" rel="noopener">Class Diagram — Domain Model & Public Interfaces</a></li>
+  <ul>
+    <li><strong>Separation of Concerns</strong> — UI, business logic, persistence, and speech are split into distinct components.</li>
+    <li><strong>SOLID Principles</strong>
+      <ul>
+        <li><em>Single Responsibility:</em> Each class has one clear job (<code>MixerService</code> mixes colors; <code>IColorRepo</code> handles storage; <code>ITTS</code> handles speech).</li>
+      <li><em>Dependency Inversion:</em> High-level code depends on interfaces (<code>IMixer</code>, <code>ITTS</code>, <code>IColorRepo</code>) rather than concrete classes, allowing for alternative implementations or multiple implementations.</li>
+    </ul>
+  </li>
+  <li><strong>Testability & Maintainability</strong> — Interfaces enable mocking in unit tests (ex: mock <code>ITTS</code> to verify calls without playing audio). Clear boundaries reduce coupling and help meet <em>REQ-20</em>.</li>
+  <li><strong>Extensibility</strong> — Swap <code>SQLiteColorRepo</code> for another store, or <code>Pyttsx3TTS</code> for a different speech engine, without changing controllers or UI code.</li>
+
+  <li><strong>Consistent User Experience</strong> — Controller coordinates validation and feedback ( bowl capacity, color max reached, or TTS unavailable) while services keep logic consistent across UI paths.</li>
+</ul>
+  <li><a href="docs/uml/mcm_sequence_1_tap_to_speak.png" target="_blank" rel="noopener">Sequence Diagram 1 — Tap To Speak (alt: TTS unavailable)</a></li>
+  <li><a href="docs/uml/mcm_sequence_2_mix_two_colors.png" target="_blank" rel="noopener">Sequence Diagram 2 — Mix Two Colors (alts: cap reached, third drag blocked)</a></li>
+</ul>
+
 
 <h2 id="run">How to Run Locally</h2>
 

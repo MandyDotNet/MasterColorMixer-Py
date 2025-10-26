@@ -14,6 +14,7 @@
   <li><a href="#backlog">Personal Backlog</a></li>
   <li><a href="#trends">Trends Note</a></li>
   <li><a href="#srs">Software Requirements Specification (SRS)</a></li>
+  <li><a href="#uml">UML Artifacts</a></li>
   <li><a href="#run">How to Run Locally</a></li>
 </ol>
 
@@ -313,6 +314,12 @@
     <tr><td>REQ-15</td><td>One-command run</td><td>CLI entry</td><td>US06, US17</td><td>Test_Run_Local</td></tr>
   </tbody>
 </table>
+
+<h2 id="uml">UML Artifacts</h2>
+
+<p>
+The diagrams linked below model the core domain and flows for <em>MasterColorMixer</em>. Interfaces (ports) and concrete adapters are shown to keep the design testable and modular (supports REQ-20 Maintainability). Public operations are listed for each class that is used by other components or exposed via the API (supports REQ-9).
+</p>
 
 
 <h2 id="run">How to Run Locally</h2>

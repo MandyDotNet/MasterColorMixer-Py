@@ -348,6 +348,25 @@ The diagrams linked below model the core domain and flows for <em>MasterColorMix
     <li><strong>Alt paths:</strong> palette cap reached → non-blocking notice; third drag → bowl blocks.</li>
   </ul>
 </ul>
+<ul>
+<p>
+<li> Paper Prototype — Happy Path (Part 1)
+  <a href="docs/uml/happy_path1.jpg">
+    <img src="docs/uml/happy_path1.jpg" alt="Paper prototype: Happy Path (Part 1)" width="320">
+  </a>
+</li>
+<li> Paper Prototype — Happy Path (Part 2)
+  <a href="docs/uml/happy_path1_cont.jpg">
+    <img src="docs/uml/happy_path1_cont.jpg" alt="Paper prototype: Happy Path (Part 2)" width="320">
+  </a>
+</li>
+<li> Paper Prototype — Edge Case 1
+  <a href="docs/uml/edge_case1.jpg">
+    <img src="docs/uml/edge_case1.jpg" alt="Paper prototype: Edge Case 1" width="320">
+  </a>
+</li>
+</p>
+</ul>
 
 <h2 id="data">Data Model</h2>
 <ul>

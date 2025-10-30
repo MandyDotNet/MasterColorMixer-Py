@@ -371,6 +371,69 @@ The diagrams linked below model the core domain and flows for <em>MasterColorMix
   </li>
 </ul>
 
+<hr>
+
+<h3 id="uml-updates">UML Updates — ADR & Prototype Impact</h3>
+<p>After choosing a <strong>Monolith</strong> in ADR 0001 and walking through the paper prototypes, the UML was updated to make boundaries explicit, simplify toddler flows, and support accessibility. The changes below reflect what changed and which REQ-IDs they reinforce.</p>
+
+<ul>
+  <li><strong>Layered Monolith boundaries added</strong> (ui / domain / infra / api) in the class diagram to reflect ADR decision.
+    <br><em>Supports:</em> REQ-9 (API), REQ-20 (Maintainability), REQ-21 (Portability)</li>
+
+  <li><strong>Introduced service interfaces</strong>:
+    <code>ITTS</code> (speak), <code>IMixer</code> (mix), <code>IColorRepo</code> (get/add unlocked), <code>IMixEventRepo</code> (record).
+    <br><em>Supports:</em> REQ-2, REQ-4, REQ-5, REQ-6, REQ-13, REQ-20</li>
+
+  <li><strong>Concrete adapters modeled</strong>:
+    <code>Pyttsx3TTS</code> (local TTS), <code>SQLiteColorRepo</code>, <code>SQLiteMixEventRepo</code>.
+    <br><em>Supports:</em> REQ-6 (persistence), REQ-10 (audio feedback path), REQ-21 (offline local stack)</li>
+
+  <li><strong>UI widgets clarified</strong>:
+    <code>PaletteView</code> (tap-to-speak), <code>MixingBowlView</code> (holds exactly two), explicit <code>ClearMixButton</code> and <code>ResetPaletteButton</code>.
+    <br><em>Supports:</em> REQ-1, REQ-3, REQ-7, REQ-8, REQ-10, REQ-11, REQ-12</li>
+
+  <li><strong>Accessibility & alt paths added in sequences</strong>:
+    TTS-unavailable branch (non-blocking visual cue), “third drag blocked”, and “palette full” notice.
+    <br><em>Supports:</em> REQ-10, REQ-11, REQ-12</li>
+
+  <li><strong>Idempotent unlock rule</strong>:
+    <code>IColorRepo.add_unlocked()</code> ignores duplicates and enforces a 20-color capacity.
+    <br><em>Supports:</em> REQ-4, REQ-6, REQ-10</li>
+
+  <li><strong>Internal API kept in-process</strong>:
+    <code>ColorController</code> (FastAPI router) orchestrates domain for tests/automation only, per ADR.
+    <br><em>Supports:</em> REQ-9, REQ-20</li>
+</ul>
+
+<table>
+  <thead>
+    <tr>
+      <th>Artifact</th><th>Change Summary</th><th>REQ-IDs</th><th>Link</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Class Diagram</strong></td>
+      <td>Layered monolith packages; IMixer/ITTS/IColorRepo interfaces; SQLite & Pyttsx3 adapters; Clear buttons as UI controls.</td>
+      <td>REQ-2, REQ-4, REQ-6, REQ-7, REQ-8, REQ-9, REQ-10, REQ-13, REQ-20, REQ-21</td>
+      <td><a href="docs/uml/mcm_class_diagram-revised.png" target="_blank" rel="noopener">mcm_class_diagram-revised.png</a></td>
+    </tr>
+    <tr>
+      <td><strong>Sequence 1 — Tap to Speak</strong></td>
+      <td>Add TTS-unavailable alt path; UI shows visual cue and continues (no hard failure).</td>
+      <td>REQ-2, REQ-10, REQ-12</td>
+      <td><a href="docs/uml/mcm_sequence_1_tap_to_speak-revised.png" target="_blank" rel="noopener">mcm_sequence_1_tap_to_speak-revised.png</a></td>
+    </tr>
+    <tr>
+      <td><strong>Sequence 2 — Mix Two Colors</strong></td>
+      <td>Limit bowl to two; IMixer call; idempotent unlock with 20-cap; TTS speaks result; alt paths for third-drag blocked & cap-reached.</td>
+      <td>REQ-3, REQ-4, REQ-5, REQ-6, REQ-10, REQ-11, REQ-12, REQ-13</td>
+      <td><a href="docs/uml/mcm_sequence_2_mix_two_colors-revised.png" target="_blank" rel="noopener">mcm_sequence_2_mix_two_colors-revised.png</a></td>
+    </tr>
+  </tbody>
+</table>
+
+
 <h2 id="data">Data Model</h2>
 <ul>
   <li><a href="docs/erd.md" target="_blank" rel="noopener">Crow’s-Foot ERD (docs/erd.md)</a></li>

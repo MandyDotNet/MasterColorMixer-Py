@@ -295,13 +295,12 @@
 </ul>
 
 <h2 id="include">Inclusivity Heuristic Review &amp; Issues</h2>
-
-<p>TODO: DESCRIBE PURPOSE OF THIS SECTION. 
+<p> 
     Two end-to-end tasks were evaluated using Inclusivity Heuristics. 
     Findings include the heuristic, affected screen/step, related REQ-ID(s), severity, and a proposed fix.
     Issues include a prioritized "top-5 issues" list, with target sprints and acceptance criteria specified. 
-    Annotated screenshots to illustrate problems and proposed improvements provided.</p>
-
+    Annotated screenshots to illustrate problems and proposed improvements provided.
+</p>
 <ul>
   <li><strong>Inclusivity Heuristic Review:</strong>
     <a href="docs/inclusivity/inclusivity-review.md" target="_blank" rel="noopener">docs/inclusivity/inclusivity-review.md</a>
@@ -313,10 +312,9 @@
     <a href="docs/inclusivity/screenshots/" target="_blank" rel="noopener">docs/inclusivity/screenshots/</a>
     <p>TODO: Create link to screenshots</p>
     <ul>
-      <li><a></a></li>
-      <li><a></a></li>
-      <li><a></a></li>
-      <li><a></a></li>
+      <li><a href="docs/inclusivity/screenshots/taskA1_tap_color_annotated.png" target="_blank" rel="noopener"></a>Target Size and Padding</li>
+      <li><a href="docs/inclusivity/screenshots/taskA2A3A5_settings_size_sound_shapes.png" target="_blank" rel="noopener"></a>Settings: Size, Sound, Shapes</li>
+      <li><a href="docs/inclusivity/screenshots/taskA5_mix_colors_color-blind_preview.png" target="_blank" rel="noopener"></a>Color-Blind Settings Enabled</li>
     </ul>
   </li>
 </ul>

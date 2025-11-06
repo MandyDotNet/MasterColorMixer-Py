@@ -14,6 +14,7 @@
   <li><a href="#backlog">Personal Backlog</a></li>
   <li><a href="#trends">Trends Note</a></li>
   <li><a href="#srs">Software Requirements Specification (SRS)</a></li>
+  <li><a href="#include">Inclusivity Heuristic Review & Issues</a></li>
   <li><a href="#uml">UML Artifacts</a></li>
   <li><a href="#data">Data Model</a></li>
   <li><a href="#trace">Traceability Table</a></li>
@@ -292,6 +293,36 @@
   <li><strong>FastAPI:</strong> A Python framework used to expose HTTP routes for the application’s backend logic.</li>
   <li><strong>SQLite:</strong> A lightweight relational database used for local persistence.</li>
 </ul>
+
+<h2 id="include">Inclusivity Heuristic Review &amp; Issues</h2>
+
+<p>TODO: DESCRIBE PURPOSE OF THIS SECTION. 
+    Two end-to-end tasks were evaluated using Inclusivity Heuristics. 
+    Findings include the heuristic, affected screen/step, related REQ-ID(s), severity, and a proposed fix.
+    Issues include a prioritized "top-5 issues" list, with target sprints and acceptance criteria specified. 
+    Annotated screenshots to illustrate problems and proposed improvements provided.</p>
+
+<ul>
+  <li><strong>Inclusivity Heuristic Review:</strong>
+    <a href="docs/inclusivity/inclusivity-review.md" target="_blank" rel="noopener">docs/inclusivity/inclusivity-review.md</a>
+  </li>
+  <li><strong>Prioritized Issue List:</strong>
+    <a href="docs/inclusivity/inclusivity-issues.md" target="_blank" rel="noopener">docs/inclusivity/inclusivity-issues.md</a>
+  </li>
+  <li><strong>Annotated Screenshots</strong>
+    <a href="docs/inclusivity/screenshots/" target="_blank" rel="noopener">docs/inclusivity/screenshots/</a>
+    <p>TODO: Create link to screenshots</p>
+    <ul>
+      <li><a></a></li>
+      <li><a></a></li>
+      <li><a></a></li>
+      <li><a></a></li>
+    </ul>
+  </li>
+</ul>
+
+<p><em>Quick summary of top fixes:</em> P1 44×44px min tap targets; P2 adjustable circle size + horizontal scroll; P3 voice options (Female EN, Male EN, Spanish ES); P4 disable “Mix” until two colors present + inline hint + clear mixing area button; P5 result badge + cleared mixing area.</p>
+
 
 <h2 id="uml">UML Artifacts</h2>
 

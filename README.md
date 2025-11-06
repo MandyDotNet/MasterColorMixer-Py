@@ -310,16 +310,14 @@
   </li>
   <li><strong>Annotated Screenshots</strong>
     <a href="docs/inclusivity/screenshots/" target="_blank" rel="noopener">docs/inclusivity/screenshots/</a>
-    <p>TODO: Create link to screenshots</p>
-    <ul>
-      <li><a href="docs/inclusivity/screenshots/taskA1_tap_color_annotated.png" target="_blank" rel="noopener"></a>Target Size and Padding</li>
-      <li><a href="docs/inclusivity/screenshots/taskA2A3A5_settings_size_sound_shapes.png" target="_blank" rel="noopener"></a>Settings: Size, Sound, Shapes</li>
-      <li><a href="docs/inclusivity/screenshots/taskA5_mix_colors_color-blind_preview.png" target="_blank" rel="noopener"></a>Color-Blind Settings Enabled</li>
-    </ul>
+      <p>Links to Annotated Screenshots</p>
+      <li><a href="docs/inclusivity/screenshots/taskA1_tap_color_annotated.png" target="_blank" rel="noopener">Target Size and Padding</a></li>
+      <li><a href="docs/inclusivity/screenshots/taskA2A3A5_settings_size_sound_shapes.png" target="_blank" rel="noopener">Settings: Size, Sound, Shapes</a></li>
+      <li><a href="docs/inclusivity/screenshots/taskA5_mix_colors_color-blind_preview.png" target="_blank" rel="noopener">Color-Blind Settings Enabled</a></li>
   </li>
 </ul>
 
-<p><em>Quick summary of top fixes:</em> P1 44×44px min tap targets; P2 adjustable circle size + horizontal scroll; P3 voice options (Female EN, Male EN, Spanish ES); P4 disable “Mix” until two colors present + inline hint + clear mixing area button; P5 result badge + cleared mixing area.</p>
+<p><em>Summary of top 5 fixes:</em> P1 44×44px min tap targets; P2 adjustable circle size + horizontal scroll; P3 voice options (Female EN, Male EN, Spanish ES); P4 disable “Mix” until two colors present + inline hint + clear mixing area button; P5 result badge + cleared mixing area.</p>
 
 
 <h2 id="uml">UML Artifacts</h2>

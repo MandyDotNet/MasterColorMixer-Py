@@ -4,3 +4,4 @@
 
 /.vs
 /.venv
+/src/master_color_mixer/__pycache__

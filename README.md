@@ -495,5 +495,54 @@ The diagrams linked below model the core domain and flows for <em>MasterColorMix
 
 <details>
   <summary><strong>Quick start (one command)</strong></summary>
-  <p>To Be Determined</p>
+  <p>
+    <pre><code>  python -m mastercolormixer.main  </code></pre>  
+  **see information below for setup requirements**
+  </p>
+
+  <h3>One-Time Setup (per machine or fresh clone)</h3>
+  <p>When you first clone this repository, you need to create and set up the virtual environment.</p>
+  <p>In the main project directory (course-project-MandyDotNet), execute the following:</p>
+  
+  <pre><code>
+  python -m venv .venv
+
+  # Windows
+  .venv/Scripts/activate
+
+  # macOS/Linux
+  # source .venv/bin/activate
+  
+  pip install -r requirements.txt
+  </code></pre>
+  
+  <p>This installs all dependencies and creates a local <code>.venv</code> folder within your local repo. You only need to do this once unless you delete the environment or update <code>requirements.txt</code>.</p>
+  
+  <h3>Every New Terminal Session</h3>
+  <p>Each time you open a new terminal or restart your computer, you must reactivate the virtual environment before running the app:</p>
+  
+  <pre><code>
+  # Windows
+  .venv/Scripts/activate
+    
+  # macOS/Linux
+  # source .venv/bin/activate  
+  </code></pre>
+  
+  <p>This tells Python to use the environment you already created. Ensure that you are in the main directory when creating your virtual environment</p>
+  
+  <h3>Running the App or Tests</h3>
+  <p>Once your virtual environment is active, you can start the stub app or run tests:</p>
+  
+  <pre><code># start the app (prints 'hello' and launches FastAPI)
+  python -m master_color_mixer.main
+  
+  # run tests
+  pytest -q
+  </code></pre>
+  
+  <p>There is no need to reinstall anything unless the dependencies change.</p>
+  
 </details>
+
+

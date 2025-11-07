@@ -495,5 +495,79 @@ The diagrams linked below model the core domain and flows for <em>MasterColorMix
 
 <details>
   <summary><strong>Quick start (one command)</strong></summary>
-  <p>To Be Determined</p>
+  <p>
+    <pre><code>  python -m src.master_color_mixer.main  </code></pre>  
+  **see information below for setup requirements**
+  </p>
+
+  <h3>One-Time Setup (per machine or fresh clone)</h3>
+  <p>When you first clone this repository, you need to create and set up the virtual environment.</p>
+  <p>In the main project directory (course-project-MandyDotNet), execute the following:</p>
+  
+  <pre><code>
+  python -m venv .venv
+
+  # Windows
+  .\.venv\Scripts\activate.bat
+
+  # macOS/Linux
+  source .venv/bin/activate
+  
+  pip install -r requirements.txt
+  </code></pre>
+  
+  <p>This installs all dependencies and creates a local <code>.venv</code> folder within your local repo. You only need to do this once unless you delete the environment or update <code>requirements.txt</code>.</p>
+  
+  <h3>Every New Terminal Session</h3>
+  <p>Each time you open a new terminal or restart your computer, you must reactivate the virtual environment before running the app:</p>
+  
+  <pre><code>
+  # Windows
+  .\.venv\Scripts\activate.bat
+
+  # macOS/Linux
+  source .venv/bin/activate
+  </code></pre>
+  
+  <p>This tells Python to use the environment you already created. Ensure that you are in the main directory when creating your virtual environment</p>
+  
+  <h3>Running the App or Tests</h3>
+  <p>Once your virtual environment is active, you can start the stub app or run tests:</p>
+  
+  <pre><code>
+  # start the app (prints 'hello' and launches FastAPI)
+  python -m src.master_color_mixer.main
+  
+  # run tests
+  pytest -q
+
+  # if you have trouble, it's likely that the virtual environment does not have pytest installed
+  # install and run with this command:
+  python -m pytest -q
+  </code></pre>
+  
+  <p>There is no need to reinstall anything unless the dependencies change.</p>
+
+<h3>Example Terminal Outputs</h3>
+<p>Below are example screenshots from successful local runs and test executions:</p>
+
+<div style="margin-top: 1em;">
+  <p><strong> Figure 1. Successful run from terminal (FastAPI stub) </strong></p>
+  <figure style="max-width: 700px; text-align: center; margin-bottom: 2em;">
+    <img src="docs/screenshots/terminalRun1.png" alt="Terminal run showing successful app launch" />
+  </figure>
+  <p><strong> Figure 2. Local app output verification </strong></p>
+  <figure style="max-width: 700px; text-align: center; margin-bottom: 2em;">
+    <img src="docs/screenshots/localOuputRun1.png" alt="Local output showing app response" />
+  </figure>
+  <p><strong> Figure 3. Pytest run confirming placeholder test passes </strong></p>
+  <figure style="max-width: 700px; text-align: center;">
+    <img src="docs/screenshots/testRun1.png" alt="Pytest run showing passing test" >
+  </figure>
+
+</div>
+
+  
 </details>
+
+

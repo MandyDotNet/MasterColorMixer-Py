@@ -548,27 +548,25 @@ The diagrams linked below model the core domain and flows for <em>MasterColorMix
   
   <p>There is no need to reinstall anything unless the dependencies change.</p>
 
-  <h3>Example Terminal Outputs</h3>
-    <p>Below are example screenshots from successful local runs and test executions:</p>
+<h3>Example Terminal Outputs</h3>
+<p>Below are example screenshots from successful local runs and test executions:</p>
 
-    <div align="center">
+<div style="margin-top: 1em;">
+  <p><strong> Figure 1. Successful run from terminal (FastAPI stub) </strong></p>
+  <figure style="max-width: 700px; text-align: center; margin-bottom: 2em;">
+    <img src="docs/screenshots/terminalRun1.png" alt="Terminal run showing successful app launch" />
+  </figure>
+  <p><strong> Figure 2. Local app output verification </strong></p>
+  <figure style="max-width: 700px; text-align: center; margin-bottom: 2em;">
+    <img src="docs/screenshots/localOuputRun1.png" alt="Local output showing app response" />
+  </figure>
+  <p><strong> Figure 3. Pytest run confirming placeholder test passes </strong></p>
+  <figure style="max-width: 700px; text-align: center;">
+    <img src="docs/screenshots/testRun1.png" alt="Pytest run showing passing test" >
+  </figure>
 
-      <figure>
-        <img src="docs/screenshots/terminalRun1.png" alt="Terminal run showing successful app launch" width="600"/>
-        <figcaption><em>Figure 1. Successful run from terminal (FastAPI stub)</em></figcaption>
-      </figure>
+</div>
 
-      <figure>
-        <img src="docs/screenshots/localOuputRun1.png" alt="Local output showing app response" width="600"/>
-        <figcaption><em>Figure 2. Local app output verification</em></figcaption>
-      </figure>
-
-      <figure>
-        <img src="docs/screenshots/testRun1.png" alt="Pytest run showing passing test" width="600"/>
-        <figcaption><em>Figure 3. Pytest run confirming placeholder test passes</em></figcaption>
-      </figure>
-
-    </div>
   
 </details>
 

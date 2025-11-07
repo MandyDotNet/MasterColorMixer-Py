@@ -496,7 +496,7 @@ The diagrams linked below model the core domain and flows for <em>MasterColorMix
 <details>
   <summary><strong>Quick start (one command)</strong></summary>
   <p>
-    <pre><code>  python -m mastercolormixer.main  </code></pre>  
+    <pre><code>  python -m src.master_color_mixer.main  </code></pre>  
   **see information below for setup requirements**
   </p>
 
@@ -508,10 +508,10 @@ The diagrams linked below model the core domain and flows for <em>MasterColorMix
   python -m venv .venv
 
   # Windows
-  .venv/Scripts/activate
+  .\.venv\Scripts\activate.bat
 
   # macOS/Linux
-  # source .venv/bin/activate
+  source .venv/bin/activate
   
   pip install -r requirements.txt
   </code></pre>
@@ -523,10 +523,10 @@ The diagrams linked below model the core domain and flows for <em>MasterColorMix
   
   <pre><code>
   # Windows
-  .venv/Scripts/activate
-    
+  .\.venv\Scripts\activate.bat
+
   # macOS/Linux
-  # source .venv/bin/activate  
+  source .venv/bin/activate
   </code></pre>
   
   <p>This tells Python to use the environment you already created. Ensure that you are in the main directory when creating your virtual environment</p>
@@ -534,11 +534,16 @@ The diagrams linked below model the core domain and flows for <em>MasterColorMix
   <h3>Running the App or Tests</h3>
   <p>Once your virtual environment is active, you can start the stub app or run tests:</p>
   
-  <pre><code># start the app (prints 'hello' and launches FastAPI)
-  python -m master_color_mixer.main
+  <pre><code>
+  # start the app (prints 'hello' and launches FastAPI)
+  python -m src.master_color_mixer.main
   
   # run tests
   pytest -q
+
+  # if you have trouble, it's likely that the virtual environment does not have pytest installed
+  # install and run with this command:
+  python -m pytest -q
   </code></pre>
   
   <p>There is no need to reinstall anything unless the dependencies change.</p>

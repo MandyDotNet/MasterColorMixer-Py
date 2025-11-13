@@ -23,7 +23,7 @@ class DynamicArray():
 
     def pop(self) -> T:
         if not self._data:
-            raise IndexError("cannot pop from empty DynamicArray")
+            raise IndexError("Cannot pop from empty DynamicArray")
         return self._data.pop()
 
     def __getitem__(self, index: int) -> T:

@@ -52,6 +52,17 @@ class RingBufferQueue:
         #return the removed element - a primary operation standard for Queue Abstract Data Type
         return item
 
+    def peek(self) -> T:
+        if self._size == 0:
+            raise IndexError("peek from empty RingBufferQueue")
+        return self._data[self._head] 
+
+    def is_empty(self) -> bool:
+        return self._size == 0 #returns true if no items
+
+    def __len__(self) -> int:
+        return self._size
+
 # I like to place helper methods after functional methods
     
     #double capacity and re-order elements so order is preserved

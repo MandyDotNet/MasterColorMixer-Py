@@ -2,12 +2,12 @@
 
 from .dynamic_array import DynamicArray
 from .stack import Stack
-from .queue import Queue
+from .queue import RingBufferQueue
 from .hashset import Hashset
 
-__all__[
+__all__ = [
     "DynamicArray",
     "Stack",
-    "Queue",
+    "RingBufferQueue",
     "Hashset"
     ]

@@ -32,7 +32,6 @@ class RingBufferQueue:
 # I like to place functional methods at the top of the class
     
     def enqueue(self, item: T) -> None:
-
         # if the number of items equals capacity, buffer full
         if self._size == len(self._data):
             self._resize(len(self._data) * 2) #double and copy
@@ -40,14 +39,23 @@ class RingBufferQueue:
         self._data[self._tail] = item
         self._tail = (self._tail + 1) % len(self._data)
         self._size += 1
+        # no return needed as we already know the queue upon request
 
+    def dequeue(self) -> T:
+        if self._size == 0:
+            raise IndexError("Cannot dequeue from empty RingBufferQueue")
+        item = self._data[self._head] #current front element
 
+        self._data[self._head] = None #clear current front element
+        self._head = (self._head + 1) % len(self._data) #move head forward, wrapping at the end
+        self._size -= 1
+        #return the removed element - a primary operation standard for Queue Abstract Data Type
+        return item
 
 # I like to place helper methods after functional methods
     
     #double capacity and re-order elements so order is preserved
     def _resize(self, new_cap: int) -> None:
-
         assert new_cap >= self._size
         new_data = [None] * new_cap
 

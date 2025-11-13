@@ -1,10 +1,10 @@
 # with enqueue, dequeue, peek, is_empty, __len__ (fixed-growth: 8 then double on overflow)
 
-from typing import Generic, List, TypeVar
+from typing import Generic, TypeVar
 
 T = TypeVar("T")
 
-class RingBufferQueue:
+class RingBufferQueue(Generic[T]): # I like to implement with Type saftey, to prevent bugs.
     # FIFO queue, a circular buffer that doubles on overflow
     # Source: https://runestone.academy/ns/books/published/pythonds/BasicDS/toctree.html
     # FIFO and queue - 4.10, 4.11

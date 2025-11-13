@@ -4,7 +4,7 @@ from typing import Generic, Iterable, List, TypeVar
 
 T = TypeVar("T")
 
-class Stack(Generic[T]):
+class Stack(Generic[T]):    # I like to implement with Type saftey, to prevent bugs.
     # implement a custom stack class: LIFO stack by composing a Python list
     def __init__(self, initial: Iterable[T] | None = None) -> None:
         self._data: List[T] = list(initial) if initial is not None else []

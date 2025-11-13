@@ -1,11 +1,11 @@
 # with append, pop, __getitem__, __setitem__, __len__ (wrap python list)
 # to support API
 
-from typing import TypeVar
+from typing import Generic, TypeVar
 
 T = TypeVar("T")
 
-class DynamicArray():
+class DynamicArray(Generic[T]): # I like to implement with Type saftey, to prevent bugs.
 
     # initializer (constructor)
     def __init__(self, initial = None): #if given make a copy as list, otherwise start empty list

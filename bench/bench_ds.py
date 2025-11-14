@@ -17,16 +17,16 @@ SIZES = [1_000, 10_000, 100_000]
 
 # --- DynamicArray benchmarks ----
 def da_append_test(n):
-    theDA = DynamicArray[int]()
+    da = DynamicArray[int]()
     for i in range(n):
-        theDA.append(i)
+        da.append(i)
 
 def da_pop_test(n):
-    theDA = DynamicArray[int]()
+    da = DynamicArray[int]()
     for i in range(n):
-        theDA.append(i)
+        da.append(i)
     for _ in range(n):
-        theDA.pop()
+        da.pop()
 
 # --- Stack benchmarks ----
 
@@ -35,3 +35,18 @@ def da_pop_test(n):
 
 
 # --- HashSet benchmarks ----
+
+# --- Main ---
+def run_benchmarks():
+
+    print("DynamicArray")
+    for n in SIZES:
+        t_append = Timer(f"da_append_test({n})",
+                         "from __main__ import da_append_test").timeit(number=1) # only need timeit to run once
+        t_pop = Timer(f"da_pop_test({n})",
+                      "from __main__ import da_pop_test").timeit(number=1)
+
+        print("n =", n)
+        print("  append time:", t_append, "seconds")
+        print("  pop time:   ", t_pop, "seconds")
+        print()

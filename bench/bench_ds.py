@@ -55,6 +55,17 @@ def queue_dequeue_test(n):
         q.dequeue()
 
 # --- HashSet benchmarks ----
+def hashset_add_test(n):
+    hs = HashSet[int]()
+    for i in range(n):
+        hs.add(i)
+
+def hashset_contains_test(n):
+    hs = HashSet[int]()
+    for i in range(n):
+        hs.add(i)
+    for i in range(n):
+        hs.contains(i)
 
 # --- Main ---
 def run_benchmarks():
@@ -83,5 +94,14 @@ def run_benchmarks():
                       "from __main__ import queue_dequeue_test").timeit(number=1)
         print(f"n={n:6d} | enqueue:{t_enq:.6f}s | dequeue:{t_deq:.6f}s")
 
+    print("\n=== HashSet ===")
+    for n in SIZES:
+        t_add = Timer(f"hashset_add_test({n})",
+                      "from __main__ import hashset_add_test").timeit(number=1)
+        t_contains = Timer(f"hashset_contains_test({n})",
+                           "from __main__ import hashset_contains_test").timeit(number=1)
+        print(f"n={n:6d} | add:    {t_add:.6f}s | contains:{t_contains:.6f}s")
+
+# run main
 if __name__ == "__main__":
     run_benchmarks()

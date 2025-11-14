@@ -34,16 +34,22 @@ def test_dynamic_array_pop_empty_error():
 
 
 #-- Test Stack --
+def test_stack_push_pop_peek_len_isEmpty():
+    stak = Stack[int]()
+    assert stak.is_empty()
+    
+    #fill the stack and use push, is_empty, __len__ and peek methods
+    for i in range(5):
+        stak.push(i)
+        assert not stak.is_empty()
+        assert len(stak) == 1 + 1
+        assert stak.peek() == i #top of stack should be the last one pushed
 
-#push
-
-#pop
-
-#peek
-
-#is_empty
-
-#__len_
+    #pop in LIFO order, verify pop method
+    for expectedStack in reversed(range(5)):
+        assert stak.peek() == expectedStack
+        x = stak.pop() #pop and return popped item
+        assert x == expectedStack
 
 
 #-- Test RingBufferQueue --

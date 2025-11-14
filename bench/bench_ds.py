@@ -29,7 +29,17 @@ def da_pop_test(n):
         da.pop()
 
 # --- Stack benchmarks ----
+def stack_push_test(n):
+    s = Stack[int]()
+    for i in range(n):
+        s.push(i)
 
+def stack_pop_test(n):
+    s = Stack[int]()
+    for i in range(n):
+        s.push(i)
+    for _ in range(n):
+        s.pop()
 
 # --- Queue benchmarks ----
 
@@ -50,6 +60,16 @@ def run_benchmarks():
         print("  append time:", t_append, "seconds")
         print("  pop time:   ", t_pop, "seconds")
         print()
+
+        print("\n=== Stack ===")
+    for n in SIZES:
+        t_push = Timer(f"stack_push_test({n})",
+                       "from __main__ import stack_push_test").timeit(number=1)
+        t_pop = Timer(f"stack_pop_test({n})",
+                      "from __main__ import stack_pop_test").timeit(number=1)
+        print(f"n={n:6d} | push:   {t_push:.6f}s | pop: {t_pop:.6f}s")
+
+
 
 if __name__ == "__main__":
     run_benchmarks()

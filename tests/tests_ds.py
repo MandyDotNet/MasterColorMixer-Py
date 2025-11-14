@@ -51,18 +51,20 @@ def test_stack_push_pop_peek_len_isEmpty():
         x = stak.pop() #pop and return popped item
         assert x == expectedStack
 
+    assert stak.is_empty()
+    assert len(stak) == 0
+#--> edge case covered: clear Stack
+
+def test_stack_pop_and_peek_empty_raises():
+    stak = Stack[int]()
+    with pytest.raises(IndexError):
+        stak.pop()
+    with pytest.raises(IndexError):
+        stak.peek()
+#--> edge case covered : 
+
 
 #-- Test RingBufferQueue --
-
-#enqueue
-
-#dequeue
-
-#peek
-
-#is_empty
-
-#__len__
 
 
 #-- Test HashSet --

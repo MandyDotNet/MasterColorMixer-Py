@@ -26,6 +26,12 @@ def test_dynamic_array_append_getitem_setitem_pop_and_len():
     assert len(theDA) == 0 #uses the __len__ method to assert that after 10 pops, all items are gone
 #--> edge cases covered: overwrite at an index, clearing the DynamicArray object
 
+def test_dynamic_array_pop_empty_error():
+    da = DynamicArray[int]()
+    with pytest.raises(IndexError): #assert what error should occur
+        da.pop()
+#--> edge case covered: attempting pop of empty DynamicArray
+
 
 #-- Test Stack --
 

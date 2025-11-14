@@ -42,26 +42,32 @@ def stack_pop_test(n):
         s.pop()
 
 # --- Queue benchmarks ----
+def queue_enqueue_test(n):
+    q = RingBufferQueue[int]()
+    for i in range(n):
+        q.enqueue(i)
 
+def queue_dequeue_test(n):
+    q = RingBufferQueue[int]()
+    for i in range(n):
+        q.enqueue(i)
+    for _ in range(n):
+        q.dequeue()
 
 # --- HashSet benchmarks ----
 
 # --- Main ---
 def run_benchmarks():
 
-    print("DynamicArray")
+    print("=== DynamicArray ===")
     for n in SIZES:
         t_append = Timer(f"da_append_test({n})",
-                         "from __main__ import da_append_test").timeit(number=1) # only need timeit to run once
+                         "from __main__ import da_append_test").timeit(number=1)
         t_pop = Timer(f"da_pop_test({n})",
                       "from __main__ import da_pop_test").timeit(number=1)
+        print(f"n={n:6d} | append: {t_append:.6f}s | pop: {t_pop:.6f}s")
 
-        print("n =", n)
-        print("  append time:", t_append, "seconds")
-        print("  pop time:   ", t_pop, "seconds")
-        print()
-
-        print("\n=== Stack ===")
+    print("\n=== Stack ===")
     for n in SIZES:
         t_push = Timer(f"stack_push_test({n})",
                        "from __main__ import stack_push_test").timeit(number=1)
@@ -69,7 +75,13 @@ def run_benchmarks():
                       "from __main__ import stack_pop_test").timeit(number=1)
         print(f"n={n:6d} | push:   {t_push:.6f}s | pop: {t_pop:.6f}s")
 
-
+    print("\n=== RingBufferQueue ===")
+    for n in SIZES:
+        t_enq = Timer(f"queue_enqueue_test({n})",
+                      "from __main__ import queue_enqueue_test").timeit(number=1)
+        t_deq = Timer(f"queue_dequeue_test({n})",
+                      "from __main__ import queue_dequeue_test").timeit(number=1)
+        print(f"n={n:6d} | enqueue:{t_enq:.6f}s | dequeue:{t_deq:.6f}s")
 
 if __name__ == "__main__":
     run_benchmarks()

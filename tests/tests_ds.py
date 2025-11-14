@@ -3,7 +3,7 @@ import pytest
 from src.mastercolormixer.ds import DynamicArray, Stack, RingBufferQueue, HashSet
 
 #-- Test DynamicArray --
-def test_dynamic_array_append_getitem_setitem_pop_and_len():
+def test_dynamic_array_append_getitem_setitem_pop_len():
     theDA = DynamicArray[int]()
 
     #insert items in the dynamic array
@@ -55,7 +55,7 @@ def test_stack_push_pop_peek_len_isEmpty():
     assert len(stak) == 0
 #--> edge case covered: clear Stack
 
-def test_stack_pop_and_peek_empty_IndexError():
+def test_stack_pop_peek_empty_IndexError():
     stak = Stack[int]()
     with pytest.raises(IndexError):
         stak.pop()
@@ -87,7 +87,7 @@ def test_queue_enqueue_dequeue_isEmpty_len_():
     assert remaining == values[10]
     assert que.is_empty()
 
-def test_queue_empty_dequeue_and_peek_IndexError():
+def test_queue_empty_dequeue_peek_IndexError():
     q = RingBufferQueue[int]()
     with pytest.raises(IndexError):
         q.dequeue()
@@ -95,11 +95,19 @@ def test_queue_empty_dequeue_and_peek_IndexError():
         q.peek()
 
 #-- Test HashSet --
+def test_hashset_add_contains_remove_len():
+    hashs = HashSet[int]()
 
-#add
+    for x in [1, 2, 3, 3, 2]:
+        hashs.add(x)
 
-#remove
+    assert len(hashs) == 3  # confirm that duplicates did not increase length
+    for y in [1, 2, 3]:
+        assert hashs.contains(y)
 
-#contains
+    hashs.remove(2)
+    assert len(hashs) == 2
+    assert not hashs.contains(2)
 
-#__len__
+    with pytest.raises(KeyError):  # calling with a non-valid Key should throw a KeyError
+        hashs.remove(999)

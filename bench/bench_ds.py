@@ -2,7 +2,7 @@
 # run with command: python -m bench.bench_ds
 
 from timeit import Timer
-from src.mastercolormixer.ds import DynamicArray, Stack, RingBufferQueue, HashSet
+from src.master_color_mixer.ds import DynamicArray, Stack, RingBufferQueue, HashSet
 
 # input sizes
 SIZES = [1_000, 10_000, 100_000]
@@ -50,3 +50,6 @@ def run_benchmarks():
         print("  append time:", t_append, "seconds")
         print("  pop time:   ", t_pop, "seconds")
         print()
+
+if __name__ == "__main__":
+    run_benchmarks()

@@ -493,20 +493,20 @@ The diagrams linked below model the core domain and flows for <em>MasterColorMix
 
 <h2 id="run">How to Run Locally</h2>
 
-<details>
   <summary><strong>Quick start (one command) from root</strong></summary>
   <p>
     <pre><code>  python -m src.master_color_mixer.main  </code></pre>  
   **see information below for setup requirements**
 
-  # run tests
-  pytest -q
+  **run tests**
+    <pre><code> pytest -q </code></pre>  
 
-  # run ds tests
-  pytest -q tests/test_ds.py
+  **run ds tests**
+    <pre><code>  pytest -q tests/test_ds.py  </code></pre>  
 
-  # run benchmark tests
-  python -m bench.bench_ds
+  **run benchmark tests**
+  <pre><code>  python -m bench.bench_ds  </code></pre>  
+  
   </p>
 
   <h3>One-Time Setup (per machine or fresh clone)</h3>
@@ -576,7 +576,5 @@ The diagrams linked below model the core domain and flows for <em>MasterColorMix
 
 </div>
 
-  
-</details>
 
 

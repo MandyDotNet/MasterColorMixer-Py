@@ -1,9 +1,4 @@
-from master_color_mixer.alg import (
-    binary_search,
-    merge_sort,
-    quick_sort,
-)
-
+from master_color_mixer.alg import binary_search, merge_sort, quick_sort
 
 def test_merge_sort_numbers_does_not_mutate():
     data = [5, 3, 8, 1, 2]

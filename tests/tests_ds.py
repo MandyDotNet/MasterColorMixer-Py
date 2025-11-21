@@ -1,6 +1,6 @@
 import pytest
 
-from src.mastercolormixer.ds import DynamicArray, Stack, RingBufferQueue, HashSet
+from src.master_color_mixer.ds import DynamicArray, Stack, RingBufferQueue, HashSet
 
 #-- Test DynamicArray --
 def test_dynamic_array_append_getitem_setitem_pop_len():

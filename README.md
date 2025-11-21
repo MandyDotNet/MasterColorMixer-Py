@@ -502,13 +502,13 @@ The diagrams linked below model the core domain and flows for <em>MasterColorMix
     <pre><code> pytest -q </code></pre>  
 
   **run ds tests**
-    <pre><code>  pytest -q tests/test_ds.py  </code></pre>  
+    <pre><code>  pytest -q tests/tests_ds.py  </code></pre>  
 
   **run benchmark tests**
   <pre><code>  python -m bench.bench_ds  </code></pre>  
   
   **run algorithm tests**
-    <pre><code> pytest -q tests/test_alg.py  </code></pre> 
+    <pre><code> pytest -q tests/tests_alg.py  </code></pre> 
   
   </p>
 

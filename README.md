@@ -507,6 +507,9 @@ The diagrams linked below model the core domain and flows for <em>MasterColorMix
   **run benchmark tests**
   <pre><code>  python -m bench.bench_ds  </code></pre>  
   
+  **run algorithm tests**
+    <pre><code> pytest -q tests/test_alg.py  </code></pre> 
+  
   </p>
 
   <h3>One-Time Setup (per machine or fresh clone)</h3>

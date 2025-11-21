@@ -1,4 +1,4 @@
-from master_color_mixer.adapters.alg import (
+from master_color_mixer.alg import (
     binary_search,
     merge_sort,
     quick_sort,
@@ -10,7 +10,7 @@ def test_merge_sort_numbers_does_not_mutate():
     result = merge_sort(data)
 
     assert result == [1, 2, 3, 5, 8] # should return a sorted copy
-    assert data == [5, 3, 8, 1, 2] # original list should change
+    assert data == [5, 3, 8, 1, 2] # original list should not change
 
 
 def test_quick_sort_numbers_does_not_mutate():
@@ -18,7 +18,7 @@ def test_quick_sort_numbers_does_not_mutate():
     result = quick_sort(data)
 
     assert result == sorted(data)
-    assert data == [7, 4, 9, 1, 0, 4] # original list should change
+    assert data == [7, 4, 9, 1, 0, 4] # original list should not change
 
 
 def test_merge_sort_strings():

@@ -5,3 +5,6 @@
 /.vs
 /.venv
 /src/master_color_mixer/__pycache__
+/src/master_color_mixer/alg/__pycache__
+/src/master_color_mixer/core/__pycache__
+/src/master_color_mixer/data/__pycache__

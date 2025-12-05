@@ -78,8 +78,8 @@ class PaletteRepository:
             result.append(ColorRecord(name, int(r), int(y), int(b), bool(is_base)))
         return result
     
+    # replace palette with list provided and enforce max
     def save_palette(self, colors: List[ColorRecord]) -> None:
-        # replace palette with list provided and enforce max
         paletteList = list(colors)[:MAX_COLORS]
         connection = self._get_conn()
         try:
@@ -94,5 +94,29 @@ class PaletteRepository:
         finally:
             connection.close()
     
-    #add_color
-    #clear_palette_to_base
+    # add a color if possible and enforce max (for now is 20)
+    def add_color(self, color: ColorRecord) -> bool:
+        connection = self._get_connection
+        try:
+            current = connection.cursor()
+
+            current.execute("SELECT COUNT(*) FROM palette")
+            count = current.fetchone()
+            if count >= MAX_COLORS: 
+                return False
+
+            current.execute("SELECT 1 FROM palette WHERE name = ?", (color.name,))
+            if current.fetchone():
+                return False
+
+            current.execute(
+                "INSERT INTO palette (name, r, y, b, is_base) VALUES (?, ?, ?, ?, ?)",
+                (color.name, color.r, color.y, color.b, 1 if color.is_base else 0),
+            )
+            connection.commit()
+            return True
+        finally:
+            connection.close()
+    
+    def clear_palette_to_base(self) -> None:
+        self.save_palette(list(BASE_COLORS))

@@ -1,7 +1,5 @@
-#temp file for mimicking a database
 
 from dataclasses import dataclass
-from os import strerror
 from typing import Dict, Iterable, Tuple, FrozenSet
 
 #decorate immutable class

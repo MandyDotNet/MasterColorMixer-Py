@@ -61,7 +61,23 @@ class PaletteRepository:
             connection.close() # connection will always close even if there was an error
 
     #--- public API connections ---
-    #load_palette
+    def load_palette(self) -> List[ColorRecord]:
+        connection = self._get_connection()
+        try:
+            current = connection.cursor()
+            current.execute(
+                "SELECT name, r, y, b, is_base"
+                "FROM palette ORDER BY is_base DESC, name ASC" # order by base first then names
+                ) # possible todo - order by an ID so that the unlock order is preserved in palette
+            rows = current.fetchall()
+        finally:
+            connection.close()
+
+        result: List[ColorRecord] = []
+        for name, r, y, b, is_base in rows:
+            result.append(ColorRecord(name, int(r), int(y), int(b), bool(is_base)))
+        return result
+    
     #save_palette
     #add_color
     #clear_palette_to_base

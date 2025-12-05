@@ -1,17 +1,26 @@
 #temp file for mimicking a database
 
-from typing import List
-from master_color_mixer.alg import merge_sort
+from dataclasses import dataclass
+from os import strerror
+from typing import Dict, Iterable, Tuple, FrozenSet
 
-BASE_COLORS: List[str] = ["yellow", "red", "blue"]
-UNLOCKED_COLORS: List[str] = []
+#decorate immutable class
+@dataclass(frozen=True)
+class ColorDef:
+    name: str
+    r: int
+    y: int
+    b: int
+    is_base: bool = False
 
-def get_all_colors_sorted() -> List[str]:
+BASE_COLORS: Tuple[ColorDef, ...] = (
+    ColorDef("red", 255, 0, 0, True),
+    ColorDef("yellow", 0, 255, 0, True),
+    ColorDef("blue", 0, 0, 255, True),
+    )
 
-    all_colors = BASE_COLORS + UNLOCKED_COLORS
-    return merge_sort(all_colors)
+#create internal dict for quick lookups
 
+#create predefined table with combinations for base colors
 
-def add_unlocked_color(name: str) -> None:
-    if name not in UNLOCKED_COLORS:
-        UNLOCKED_COLORS.append(name)
+#create mix_colors algorithm

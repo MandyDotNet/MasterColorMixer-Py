@@ -38,7 +38,7 @@ class PaletteRepository:
                 CREATE TABLE IF NOT EXISTS palette (
                     name TEXT PRIMARY KEY,
                     r INTEGER NOT NULL,
-                    g INTEGER NOT NULL,
+                    y INTEGER NOT NULL,
                     b INTEGER NOT NULL,
                     is_base INTEGER NOT NULL DEFAULT 0
                 )
@@ -78,6 +78,21 @@ class PaletteRepository:
             result.append(ColorRecord(name, int(r), int(y), int(b), bool(is_base)))
         return result
     
-    #save_palette
+    def save_palette(self, colors: List[ColorRecord]) -> None:
+        # replace palette with list provided and enforce max
+        paletteList = list(colors)[:MAX_COLORS]
+        connection = self._get_conn()
+        try:
+            current = connection.cursor()
+            current.execute("DELETE FROM palette")
+            for color in paletteList:
+                current.execute(
+                    "INSERT INTO palette (name, r, y, b, is_base) VALUES (?, ?, ?, ?, ?)",
+                    (color.name, color.r, color.y, color.b, 1 if color.is_base else 0),
+                )
+            connection.commit()
+        finally:
+            connection.close()
+    
     #add_color
     #clear_palette_to_base

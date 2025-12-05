@@ -5,11 +5,12 @@ import sqlite3
 from pathlib import Path
 from typing import List
 
-from .palette_catalog import BASE_COLORS #ColorDef
+from .palette_catalog import BASE_COLORS, ColorDef
 
 #define global variables
 DB_FILENAME = "mcm_palette.db"
 MAX_COLORS = 20
+ColorRecord = ColorDef
 
 class PaletteRepository:
     

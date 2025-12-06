@@ -492,24 +492,29 @@ The diagrams linked below model the core domain and flows for <em>MasterColorMix
 </table>
 
 <h2 id="run">How to Run Locally</h2>
-
-  <summary><strong>Quick start (one command) from root</strong></summary>
+  <p>To run this program, activate the Python virtual environment after each system restart. </p>
+  <summary><strong>On Windows From Root</strong></summary>
+  <p>
+    <pre><code> python -m venv .venv  </code></pre>  
+    <pre><code> .\.venv\Scripts\activate.bat  </code></pre>  
+    <pre><code>  pip install -r requirements.txt  </code></pre>  
+    <pre><code>  python -m src.master_color_mixer.main  </code></pre>  
+  </p>
+  
+  <summary><strong>When the virtual environment is setup, execute this command to run this program. </strong></summary>
   <p>
     <pre><code>  python -m src.master_color_mixer.main  </code></pre>  
-  **see information below for setup requirements**
 
+  <details>
+  **see information below for setup requirements**
   **run tests**
     <pre><code> pytest -q </code></pre>  
-
   **run ds tests**
     <pre><code>  pytest -q tests/tests_ds.py  </code></pre>  
-
   **run benchmark tests**
   <pre><code>  python -m bench.bench_ds  </code></pre>  
-  
   **run algorithm tests**
     <pre><code> pytest -q tests/tests_alg.py  </code></pre> 
-  
   </p>
 
   <h3>One-Time Setup (per machine or fresh clone)</h3>
@@ -576,7 +581,7 @@ The diagrams linked below model the core domain and flows for <em>MasterColorMix
   <figure style="max-width: 700px; text-align: center;">
     <img src="docs/screenshots/testRun1.png" alt="Pytest run showing passing test" >
   </figure>
-
+</details>
 </div>
 
 

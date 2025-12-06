@@ -1,4 +1,4 @@
-#implement a SQLite repository/database
+# implement a SQLite repository/database
 # responsible for palette CRUD, enforcing MAX_COLORS
 
 import sqlite3 # https://docs.python.org/3/library/sqlite3.html
@@ -12,9 +12,9 @@ DB_FILENAME = "mcm_palette.db"
 MAX_COLORS = 20
 ColorRecord = ColorDef
 
+
 class PaletteRepository:
-    
-    def _init_(self, db_path: str | Path | None = None) -> None:
+    def __init__(self, db_path: str | Path | None = None) -> None:
         if db_path is None:
             db_path = DB_FILENAME
         self.db_path = Path(db_path)
@@ -25,14 +25,11 @@ class PaletteRepository:
         return sqlite3.connect(self.db_path)
 
     # possible todo - rewrite using with for transaction safety ()
-    # initialize database
-    def _init_database(self) -> None:
+    def _init_db(self) -> None:
         connection = self._get_connection()
-
-        # if this is the first run, create base table with base colors
         try:
-            cur = connection.cursor()
-            cur.execute(
+            current = connection.cursor()
+            current.execute(
                 """
                 CREATE TABLE IF NOT EXISTS palette (
                     name TEXT PRIMARY KEY,
@@ -42,24 +39,24 @@ class PaletteRepository:
                     is_base INTEGER NOT NULL DEFAULT 0
                 )
                 """
-                )
+            )
             connection.commit()
 
-            # there is a table, load it or fill it
-            cur.execute("SELECT COUNT(*) FROM palette")
-            count = cur.fetchone()
+            # seed base colors if table empty
+            current.execute("SELECT COUNT(*) FROM palette")
+            count = current.fetchone()[0]
             if count == 0:
                 for color in BASE_COLORS:
-                    cur.execute(
-                        # Python's parameterized safe insert
-                        "INSERT INTO palette (name, r, y, b, is_base) VALUES (?, ?, ?, ?, ?)",
+                    current.execute(
+                        "INSERT INTO palette (name, r, y, b, is_base) "
+                        "VALUES (?, ?, ?, ?, ?)",
                         (color.name, color.r, color.y, color.b, 1 if color.is_base else 0),
-                        )
+                    )
                 connection.commit()
         finally:
-            connection.close() # connection will always close even if there was an error
+            connection.close()
 
-    #--- public API connections ---
+    # public API
     def load_palette(self) -> List[ColorRecord]:
         connection = self._get_connection()
         try:
@@ -76,46 +73,48 @@ class PaletteRepository:
         for name, r, y, b, is_base in rows:
             result.append(ColorRecord(name, int(r), int(y), int(b), bool(is_base)))
         return result
-    
-    # replace palette with list provided and enforce max
+
     def save_palette(self, colors: List[ColorRecord]) -> None:
-        paletteList = list(colors)[:MAX_COLORS]
-        connection = self._get_conn()
+        palette_list = list(colors)[:MAX_COLORS]
+        connection = self._get_connection()
         try:
             current = connection.cursor()
             current.execute("DELETE FROM palette")
-            for color in paletteList:
+            for color in palette_list:
                 current.execute(
-                    "INSERT INTO palette (name, r, y, b, is_base) VALUES (?, ?, ?, ?, ?)",
+                    "INSERT INTO palette (name, r, y, b, is_base) "
+                    "VALUES (?, ?, ?, ?, ?)",
                     (color.name, color.r, color.y, color.b, 1 if color.is_base else 0),
                 )
             connection.commit()
         finally:
             connection.close()
-    
-    # add a color if possible and enforce max (for now is 20)
+
     def add_color(self, color: ColorRecord) -> bool:
-        connection = self._get_connection
+        connection = self._get_connection()
         try:
             current = connection.cursor()
 
+            # enforce max size
             current.execute("SELECT COUNT(*) FROM palette")
-            count = current.fetchone()
-            if count >= MAX_COLORS: 
+            count = current.fetchone()[0]
+            if count >= MAX_COLORS:
                 return False
 
+            # avoid duplicates by name
             current.execute("SELECT 1 FROM palette WHERE name = ?", (color.name,))
             if current.fetchone():
                 return False
 
             current.execute(
-                "INSERT INTO palette (name, r, y, b, is_base) VALUES (?, ?, ?, ?, ?)",
+                "INSERT INTO palette (name, r, y, b, is_base) "
+                "VALUES (?, ?, ?, ?, ?)",
                 (color.name, color.r, color.y, color.b, 1 if color.is_base else 0),
             )
             connection.commit()
             return True
         finally:
             connection.close()
-    
+
     def clear_palette_to_base(self) -> None:
         self.save_palette(list(BASE_COLORS))

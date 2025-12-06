@@ -17,13 +17,13 @@ service = ColorMixerService()
 def index() -> str:
     return """
     <!doctype html>
-    <html lang = "en">
+    <html lang="en">
     <head>
-        <meta charset = "utf-8">
+        <meta charset="utf-8">
         <title>MasterColorMixer</title>
         <style>
         :root {
-            --circle-size: 120px; /* will be adjusted in JS based on palette size */
+            --circle-size: 120px;
         }
 
         * {
@@ -34,57 +34,53 @@ def index() -> str:
             font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
             padding: 1.5rem;
             margin: 0;
-            background: #f5f5f5;
+            background:
+            repeating-linear-gradient(
+                45deg,
+                #ffe5ec,
+                #ffe5ec 20px,
+                #fff9d9 20px,
+                #fff9d9 40px
+            );
             color: #222;
         }
 
         h1 {
-            margin: 0 0 0.5rem 0;
-            font-size: 2rem;
+            margin: 0 0 1rem 0;
+            font-size: 2.2rem;
+            text-align: center;
         }
 
         h2 {
-            margin: 0 0 0.5rem 0;
-            font-size: 1.4rem;
-        }
-
-        p {
-            margin: 0.25rem 0 0.75rem 0;
+            margin: 0 0 0.75rem 0;
+            font-size: 1.5rem;
         }
 
         main {
             display: flex;
             flex-direction: column;
             gap: 1.5rem;
+            max-width: 960px;
+            margin: 0 auto;
         }
 
-        /* Palette section */
-        #palette-section {
+        /* Card containers */
+        #palette-section,
+        #mix-section {
             background: #ffffff;
-            border-radius: 16px;
-            padding: 1rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.08);
-            min-height: 180px;
+            border-radius: 20px;
+            padding: 1rem 1.25rem 1.25rem 1.25rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
         }
 
+        /* Palette */
         #palette-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 1rem;
-            margin-bottom: 0.75rem;
             flex-wrap: wrap;
-        }
-
-        #palette-title-row {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        #palette-help {
-            font-size: 0.95rem;
-            color: #555;
+            margin-bottom: 0.75rem;
         }
 
         #palette-container-wrapper {
@@ -95,15 +91,15 @@ def index() -> str:
         }
 
         #clearPaletteBtn {
-            padding: 0.6rem 1rem;
+            padding: 0.7rem 1.2rem;
             border-radius: 999px;
             border: none;
-            font-size: 0.95rem;
+            font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
             background: #f44336;
             color: #ffffff;
-            min-width: 120px;
+            min-width: 130px;
         }
 
         #clearPaletteBtn:focus-visible {
@@ -117,8 +113,8 @@ def index() -> str:
             flex-wrap: wrap;
             gap: 0.75rem;
             padding: 0.25rem;
-            min-height: 140px;
-            max-height: 220px;  /* fixed height: palette area does not grow */
+            min-height: 150px;
+            max-height: 150px;
             align-items: center;
         }
 
@@ -127,7 +123,7 @@ def index() -> str:
             height: var(--circle-size);
             border-radius: 999px;
             border: 3px solid #333;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             font-weight: 700;
             color: #111;
             display: flex;
@@ -150,32 +146,23 @@ def index() -> str:
             box-shadow: 0 0 0 3px #00000088;
         }
 
-        /* Mixing section */
-        #mix-section {
-            background: #ffffff;
-            border-radius: 16px;
-            padding: 1rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.08);
-            min-height: 220px;  /* keep mixing area size stable */
-        }
-
+        /* Mixing bowl */
         #mix-header {
             display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 0.75rem;
-            flex-wrap: wrap;
-            margin-bottom: 0.75rem;
+            justify-content: center;
+            margin-bottom: 0.5rem;
         }
 
         #mix-buttons {
             display: flex;
-            gap: 0.5rem;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
             flex-wrap: wrap;
         }
 
         .action-btn {
-            padding: 0.7rem 1.4rem;
+            padding: 0.75rem 1.6rem;
             border-radius: 999px;
             border: none;
             font-size: 1rem;
@@ -185,12 +172,12 @@ def index() -> str:
         }
 
         #mixBtn {
-            background: #4CAF50;
+            background: #4caf50;
             color: #ffffff;
         }
 
         #clearBowlBtn {
-            background: #FFC107;
+            background: #ffc107;
             color: #222;
         }
 
@@ -199,10 +186,14 @@ def index() -> str:
             outline-offset: 2px;
         }
 
-        #mix-instructions {
-            font-size: 0.95rem;
-            color: #555;
-            margin-top: 0.25rem;
+        .mix-bowl-wrapper {
+            background: #ffe9c7;
+            border-radius: 24px;
+            padding: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 210px;
         }
 
         .mix-bowl {
@@ -210,9 +201,7 @@ def index() -> str:
             flex-direction: row;
             justify-content: center;
             align-items: center;
-            gap: 1.5rem;
-            margin-top: 0.75rem;
-            min-height: 160px;
+            gap: 2rem;
         }
 
         .mix-slot {
@@ -238,28 +227,11 @@ def index() -> str:
             pointer-events: none;
         }
 
-        .drop-hint {
-            font-size: 0.85rem;
-            color: #666;
-            text-align: center;
-            margin-top: 0.25rem;
-        }
-
-        #remove-zone {
-            margin-top: 0.5rem;
-            text-align: center;
-            font-size: 0.85rem;
-            color: #555;
-        }
-
         #status {
-            margin-top: 1rem;
+            margin-top: 0.9rem;
             font-size: 1.05rem;
             min-height: 1.4em;
-        }
-
-        #status strong {
-            font-weight: 700;
+            text-align: center;
         }
 
         @media (max-width: 640px) {
@@ -267,8 +239,7 @@ def index() -> str:
             padding: 1rem;
             }
             .mix-bowl {
-            flex-direction: row;
-            gap: 1rem;
+            gap: 1.2rem;
             }
             .mix-slot {
             width: 120px;
@@ -278,85 +249,65 @@ def index() -> str:
         </style>
     </head>
     <body>
-        <header>
         <h1>MasterColorMixer</h1>
-        <p>Tap or drag colors into the bowl. Mix two colors to discover new ones.</p>
-        </header>
 
         <main>
-        <!-- Palette at the top -->
-        <section id = "palette-section" aria-label = "Color palette">
-            <div id = "palette-header">
-            <div id = "palette-title-row">
-                <h2>Palette</h2>
+        <section id="palette-section" aria-label="Color palette">
+            <div id="palette-header">
+            <h2>Palette</h2>
             </div>
-            <div id = "palette-help">
-                Tap a color to hear its name and add it to the bowl.<br />
-                Drag a color into a bowl circle too.
-            </div>
-            </div>
-
-            <div id = "palette-container-wrapper">
+            <div id="palette-container-wrapper">
             <button
-                id = "clearPaletteBtn"
-                type = "button"
-                aria-label = "Reset palette to starting colors"
+                id="clearPaletteBtn"
+                type="button"
+                aria-label="Reset palette to starting colors"
             >
                 Reset Palette
             </button>
             <div
-                id = "palette"
-                role = "list"
-                aria-label = "Available colors"
+                id="palette"
+                role="list"
+                aria-label="Available colors"
             ></div>
             </div>
         </section>
 
-        <!-- Mixing bowl -->
-        <section id = "mix-section" aria-label = "Mixing bowl">
-            <div id = "mix-header">
-            <div>
-                <h2>Mixing Bowl</h2>
-                <p id = "mix-instructions">
-                Put up to <strong>two</strong> colors in the bowl. No more than two at a time.
-                </p>
+        <section id="mix-section" aria-label="Mixing bowl">
+            <div id="mix-header">
+            <h2>Mixing Bowl</h2>
             </div>
-            <div id = "mix-buttons">
-                <button id = "mixBtn" class = "action-btn" type = "button">
+
+            <div id="mix-buttons">
+            <button id="mixBtn" class="action-btn" type="button">
                 Mix Colors
-                </button>
-                <button id = "clearBowlBtn" class = "action-btn" type = "button">
+            </button>
+            <button id="clearBowlBtn" class="action-btn" type="button">
                 Clear Bowl
-                </button>
-            </div>
+            </button>
             </div>
 
-            <div class = "mix-bowl" aria-label = "Mixing slots">
-            <div
-                id = "slotA"
-                class = "mix-slot"
-                data-slot = "A"
-                aria-label = "First color slot"
-            >
+            <div class="mix-bowl-wrapper">
+            <div class="mix-bowl" aria-label="Mixing slots">
+                <div
+                id="slotA"
+                class="mix-slot"
+                data-slot="A"
+                aria-label="First color slot"
+                >
                 Slot A
-            </div>
-            <div
-                id = "slotB"
-                class = "mix-slot"
-                data-slot = "B"
-                aria-label = "Second color slot"
-            >
+                </div>
+                <div
+                id="slotB"
+                class="mix-slot"
+                data-slot="B"
+                aria-label="Second color slot"
+                >
                 Slot B
+                </div>
             </div>
-            </div>
-            <div class = "drop-hint">
-            Tip: Drag a filled color circle out of the bowl and drop it on the palette to remove it.
-            </div>
-            <div id = "remove-zone" aria-hidden = "true">
-            The bowl never changes size. Only two colors fit at a time.
             </div>
 
-            <div id = "status" aria-live = "polite"></div>
+            <div id="status" aria-live="polite"></div>
         </section>
         </main>
 
@@ -364,22 +315,17 @@ def index() -> str:
     let slotA = null;
     let slotB = null;
 
-    /**
-        * Adjust circle size based on how many colors are in the palette.
-        * Toddlers shouldn't have to scroll, so we shrink circles gently
-        * as the palette grows.
-        */
     function adjustCircleSize(count) {
         let size;
-        if (count < =  6) {
+        if (count <= 6) {
         size = 120;
-        } else if (count < =  10) {
+        } else if (count <= 10) {
         size = 105;
-        } else if (count < =  14) {
+        } else if (count <= 14) {
         size = 90;
-        } else if (count < =  18) {
+        } else if (count <= 18) {
         size = 80;
-        } else if (count < =  24) {
+        } else if (count <= 24) {
         size = 70;
         } else {
         size = 60;
@@ -392,16 +338,11 @@ def index() -> str:
         status.textContent = msg || "";
     }
 
-    /**
-        * Fetch palette from backend and render buttons.
-        * /api/palette returns a JSON array of color objects:
-        * [{ name, r, y, b, is_base }, ...]
-        */
     async function fetchPalette() {
         try {
         const res = await fetch("/api/palette");
         if (!res.ok) {
-            setStatus("Could not load palette.");
+            setStatus("Could not load colors.");
             return;
         }
         const data = await res.json();
@@ -416,22 +357,19 @@ def index() -> str:
             if (c.is_base) {
             btn.classList.add("base-color");
             }
-            btn.setAttribute("type", "button");
+            btn.type = "button";
             btn.setAttribute("role", "listitem");
             btn.setAttribute("aria-label", c.name + " color");
-            // We are using r, y, b as approximate RGB for display
             btn.style.backgroundColor = `rgb(${c.r}, ${c.y}, ${c.b})`;
             btn.textContent = c.name;
 
-            // Click: add to bowl + speak name
-            btn.onclick = ()  = > {
+            btn.onclick = () => {
             addToBowl(c.name);
             speakColor(c.name);
             };
 
-            // Drag: allow drag into bowl
             btn.draggable = true;
-            btn.addEventListener("dragstart", (e)  = > {
+            btn.addEventListener("dragstart", (e) => {
             e.dataTransfer.setData("text/plain", JSON.stringify({
                 type: "palette",
                 name: c.name
@@ -443,7 +381,7 @@ def index() -> str:
         }
         } catch (e) {
         console.error(e);
-        setStatus("Network error while loading palette.");
+        setStatus("Network error while loading colors.");
         }
     }
 
@@ -466,8 +404,6 @@ def index() -> str:
         el.appendChild(span);
         el.classList.add("filled");
         el.setAttribute("aria-label", emptyLabel + " with " + value);
-
-        // Make the filled slot draggable so toddler can drag it out
         el.draggable = true;
         el.addEventListener("dragstart", handleSlotDragStart);
         } else {
@@ -478,39 +414,30 @@ def index() -> str:
         }
     }
 
-    /**
-        * Add a color to the bowl, obeying "max two colors" rule.
-        */
     function addToBowl(name) {
         if (!slotA) {
         slotA = name;
         } else if (!slotB) {
         slotB = name;
         } else {
-        setStatus("The bowl already has two colors. Clear or remove one first.");
+        setStatus("Two colors only. Clear or remove one.");
         return;
         }
         renderSlots();
-        setStatus("Added " + name + " to the bowl.");
+        setStatus("");
     }
 
-    /**
-        * Clear bowl.
-        */
     function clearBowl() {
         slotA = null;
         slotB = null;
         renderSlots();
-        setStatus("Bowl cleared.");
+        setStatus("");
     }
 
-    /**
-        * Drag from a slot: we encode which slot and which color.
-        */
     function handleSlotDragStart(e) {
         const el = e.currentTarget;
-        const slotId = el.id = = = "slotA" ? "A" : "B";
-        const name = slotId = = = "A" ? slotA : slotB;
+        const slotId = el.id === "slotA" ? "A" : "B";
+        const name = slotId === "A" ? slotA : slotB;
         e.dataTransfer.setData("text/plain", JSON.stringify({
         type: "slot",
         slot: slotId,
@@ -519,20 +446,17 @@ def index() -> str:
         e.dataTransfer.effectAllowed = "move";
     }
 
-    /**
-        * Drop handler for bowl slots.
-        */
     function setupBowlDropZones() {
         const slotADiv = document.getElementById("slotA");
         const slotBDiv = document.getElementById("slotB");
 
-        [slotADiv, slotBDiv].forEach((el)  = > {
-        el.addEventListener("dragover", (e)  = > {
+        [slotADiv, slotBDiv].forEach((el) => {
+        el.addEventListener("dragover", (e) => {
             e.preventDefault();
             e.dataTransfer.dropEffect = "move";
         });
 
-        el.addEventListener("drop", (e)  = > {
+        el.addEventListener("drop", (e) => {
             e.preventDefault();
             const dataStr = e.dataTransfer.getData("text/plain");
             if (!dataStr) return;
@@ -543,61 +467,51 @@ def index() -> str:
             return;
             }
 
-            const targetSlot = el.id = = = "slotA" ? "A" : "B";
+            const targetSlot = el.id === "slotA" ? "A" : "B";
 
-            // Only allow two colors total
-            if (slotA && slotB && payload.type = = = "palette") {
-            setStatus("The bowl already has two colors. Clear or remove one first.");
+            if (slotA && slotB && payload.type === "palette") {
+            setStatus("Two colors only. Clear or remove one.");
             return;
             }
 
-            if (payload.type = = = "palette") {
-            // Dropping a palette color into a slot
-            if (targetSlot = = = "A") {
+            if (payload.type === "palette") {
+            if (targetSlot === "A") {
                 slotA = payload.name;
             } else {
                 slotB = payload.name;
             }
             renderSlots();
             speakColor(payload.name);
-            setStatus("Added " + payload.name + " to " + el.id + ".");
-            } else if (payload.type = = = "slot") {
-            // Moving or swapping between slots
+            setStatus("");
+            } else if (payload.type === "slot") {
             const fromSlot = payload.slot;
             const fromName = payload.name;
 
-            if (fromSlot = = = targetSlot) {
-                // Dropped back onto same slot: no change
-                return;
-            }
+            if (fromSlot === targetSlot) return;
 
-            if (fromSlot = = = "A" && targetSlot = = = "B") {
+            if (fromSlot === "A" && targetSlot === "B") {
                 slotB = fromName;
                 slotA = null;
-            } else if (fromSlot = = = "B" && targetSlot = = = "A") {
+            } else if (fromSlot === "B" && targetSlot === "A") {
                 slotA = fromName;
                 slotB = null;
             }
             renderSlots();
-            setStatus("Moved " + fromName + " in the bowl.");
+            setStatus("");
             }
         });
         });
     }
 
-    /**
-        * Make palette a drop zone to remove colors from bowl.
-        * Dragging a filled slot onto the palette clears that slot.
-        */
     function setupPaletteDropZone() {
         const palette = document.getElementById("palette");
 
-        palette.addEventListener("dragover", (e)  = > {
+        palette.addEventListener("dragover", (e) => {
         e.preventDefault();
         e.dataTransfer.dropEffect = "move";
         });
 
-        palette.addEventListener("drop", (e)  = > {
+        palette.addEventListener("drop", (e) => {
         e.preventDefault();
         const dataStr = e.dataTransfer.getData("text/plain");
         if (!dataStr) return;
@@ -608,21 +522,18 @@ def index() -> str:
             return;
         }
 
-        if (payload.type = = = "slot") {
-            if (payload.slot = = = "A") {
+        if (payload.type === "slot") {
+            if (payload.slot === "A") {
             slotA = null;
-            } else if (payload.slot = = = "B") {
+            } else if (payload.slot === "B") {
             slotB = null;
             }
             renderSlots();
-            setStatus("Removed " + payload.name + " from the bowl.");
+            setStatus("");
         }
         });
     }
 
-    /**
-        * Call backend TTS to speak a color name.
-        */
     async function speakColor(name) {
         try {
         await fetch("/api/speak", {
@@ -635,13 +546,9 @@ def index() -> str:
         }
     }
 
-    /**
-        * Mix colors currently in the bowl.
-        * POST /api/mix { color_a, color_b }
-        */
     async function mix() {
         if (!slotA || !slotB) {
-        setStatus("Pick two colors in the bowl first.");
+        setStatus("Pick two colors first.");
         return;
         }
         try {
@@ -651,37 +558,34 @@ def index() -> str:
             body: JSON.stringify({ color_a: slotA, color_b: slotB })
         });
         if (!res.ok) {
-            const err = await res.json().catch(()  = > ({}));
+            const err = await res.json().catch(() => ({}));
             setStatus(err.detail || "Mix failed.");
             return;
         }
         const data = await res.json();
         const resultName = data.result.name;
 
-        setStatus("Result: " + resultName + " (added to palette: " + (data.added_to_palette ? "yes" : "no") + ")");
+        setStatus("");
         await fetchPalette();
-        await speakColor(resultName); // speak mixed color name
+        await speakColor(resultName);
         } catch (e) {
         console.error(e);
         setStatus("Network error while mixing.");
         }
     }
 
-    /**
-        * Reset palette via backend, keep bowl as-is or clear (your choice).
-        */
     async function clearPalette() {
         try {
         await fetch("/api/palette/clear", { method: "POST" });
         await fetchPalette();
-        setStatus("Palette reset to starting colors.");
+        setStatus("");
         } catch (e) {
         console.error(e);
         setStatus("Could not reset palette.");
         }
     }
 
-    document.addEventListener("DOMContentLoaded", ()  = > {
+    document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("mixBtn").onclick = mix;
         document.getElementById("clearBowlBtn").onclick = clearBowl;
         document.getElementById("clearPaletteBtn").onclick = clearPalette;
@@ -694,6 +598,7 @@ def index() -> str:
     </script>
     </body>
     </html>
+
     """
 
 #--- API ---

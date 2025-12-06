@@ -14,12 +14,11 @@ ColorRecord = ColorDef
 
 class PaletteRepository:
     
-    def __init__(self, db_path: str | Path | None = None) -> None:
+    def _init_(self, db_path: str | Path | None = None) -> None:
         if db_path is None:
             db_path = DB_FILENAME
         self.db_path = Path(db_path)
         self._init_db()
-
 
     # connection management
     def _get_connection(self) -> sqlite3.Connection:

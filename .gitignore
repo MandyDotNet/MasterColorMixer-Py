@@ -8,3 +8,5 @@
 /src/master_color_mixer/alg/__pycache__
 /src/master_color_mixer/core/__pycache__
 /src/master_color_mixer/data/__pycache__
+/src/master_color_mixer/adapters/__pycache__/__init__.cpython-311.pyc
+/src/master_color_mixer/adapters/__pycache__/tts_pyttsx3.cpython-311.pyc

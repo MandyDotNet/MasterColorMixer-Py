@@ -62,7 +62,7 @@ class PaletteRepository:
         try:
             current = connection.cursor()
             current.execute(
-                "SELECT name, r, y, b, is_base"
+                "SELECT name, r, y, b, is_base "
                 "FROM palette ORDER BY is_base DESC, name ASC" # order by base first then names
                 ) # possible todo - order by an ID so that the unlock order is preserved in palette
             rows = current.fetchall()

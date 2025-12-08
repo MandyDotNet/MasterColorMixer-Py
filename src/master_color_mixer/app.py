@@ -469,11 +469,6 @@ def index() -> str:
 
             const targetSlot = el.id === "slotA" ? "A" : "B";
 
-            if (slotA && slotB && payload.type === "palette") {
-            setStatus("Two colors only. Clear or remove one.");
-            return;
-            }
-
             if (payload.type === "palette") {
             if (targetSlot === "A") {
                 slotA = payload.name;

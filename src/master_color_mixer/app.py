@@ -1,34 +1,56 @@
-# monolithic style: UI and API 
+# monolithic style: UI and API
 
-# https://fastapi.tiangolo.com/reference/fastapi/
-from fastapi import FastAPI, HTTPException
+import logging
+from contextlib import asynccontextmanager
+from pathlib import Path
+from typing import List
+
+from fastapi import FastAPI, HTTPException, Depends, Request
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
-
-from pathlib import Path
 from pydantic import BaseModel
-from typing import List
 
 from .core.mixing import ColorMixerService, MixResult
 from .data.repo import ColorRecord
 from .adapters.tts_pyttsx3 import speak_color_name
 
-app = FastAPI(title = "MasterColorMixer")
-service = ColorMixerService()
+logger = logging.getLogger(__name__)
+
+#--- Lifespan: for startup/shutdown hooks ---
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    logger.info("Application starting up: creating ColorMixerService")
+    app.state.color_service = ColorMixerService()
+
+    try:
+        yield
+    finally:
+        #ColorMixerService needs explicit cleanup
+        logger.info("Application shutting down: clean up services")
+        #app.state.color_service.close()
+        logger.info("Shutdown complete")
+#--- end Lifespan ---
+
+app = FastAPI(title = "MasterColorMixer", lifespan = lifespan)
+#service = ColorMixerService()
 
 BASE_DIR = Path(__file__).resolve().parent
 templates_dir = BASE_DIR / "templates"
 static_dir = BASE_DIR / "static"
 images_dir = BASE_DIR / "images"
 
-app.mount("/static", StaticFiles(directory=static_dir), name="static")
-app.mount("/images", StaticFiles(directory=images_dir), name="images")
+app.mount("/static", StaticFiles(directory=static_dir), name = "static")
+app.mount("/images", StaticFiles(directory=images_dir), name = "images")
 
+# dependency to get ColorMixerService from app.state
+def get_color_service(request: Request) -> ColorMixerService:
+    return request.app.state.color_service
 
+# root page
 @app.get("/", response_class = HTMLResponse)
-def index() -> str:
+def index() -> HTMLResponse:
     index_path = templates_dir / "index.html"
-    return HTMLResponse(index_path.read_text(encoding="utf-8"))
+    return HTMLResponse(index_path.read_text(encoding = "utf-8"))
 
 #--- API ---
 # contracts for the API and FastAPI documentation, and FastAPI JSON conversion
@@ -67,19 +89,26 @@ class SpeakResponse(BaseModel):
 
 # --- Palette endpoints ---
 @app.get("/api/palette", response_model = List[ColorDTO])
-def get_palette() -> List[ColorDTO]:
+def get_palette(
+    service: ColorMixerService = Depends(get_color_service),
+    ) -> List[ColorDTO]:
     palette = service.get_palette()
     return [ColorDTO.from_record(c) for c in palette]
 
 @app.post("/api/palette/clear", response_model = List[ColorDTO])
-def clear_palette() -> List[ColorDTO]:
+def clear_palette(
+    service: ColorMixerService = Depends(get_color_service),
+    ) -> List[ColorDTO]:
     palette = service.clear_palette()
     return [ColorDTO.from_record(c) for c in palette]
 
 
 # --- Mix endpoint ---
 @app.post("/api/mix", response_model = MixResponse)
-def mix_colors_endpoint(payload: MixRequest) -> MixResponse:
+def mix_colors_endpoint(
+    payload: MixRequest,
+    service: ColorMixerService = Depends(get_color_service),
+    ) -> MixResponse:
     try:
         mix_result: MixResult = service.mix(payload.color_a, payload.color_b)
     except ValueError as e:

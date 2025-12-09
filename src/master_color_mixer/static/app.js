@@ -3,6 +3,58 @@ console.log("MasterColorMixer JS loaded");
 let slotA = null;
 let slotB = null;
 
+// This RYB system I wanted to use turned into a can of worms.
+// Luckily, someone else figured out the technique, so I have implemented their idea in rybToRgb()
+// https://math.stackexchange.com/questions/305395/ryb-and-rgb-color-space-conversion
+
+// convert a RYB triple (0-255 each) into an RGB triple (0-255 each).
+function rybToRgb(r, y, b) {
+    let R = r;
+    let Y = y;
+    let B = b;
+
+    // remove shared "whiteness"
+    const white = Math.min(R, Y, B);
+    R -= white;
+    Y -= white;
+    B -= white;
+
+    const maxYellow = Math.max(R, Y, B);
+
+    // extract green from yellow and blue
+    let G = Math.min(Y, B);
+    Y -= G;
+    B -= G;
+
+    // boost mixed blue/green to keep them vivid
+    if (B > 0 && G > 0) {
+        B *= 2;
+        G *= 2;
+    }
+
+    // spread any remaining yellow into red + green
+    R += Y;
+    G += Y;
+
+    // normalize so brightness stays similar to original yellow
+    const maxGreen = Math.max(R, G, B);
+    if (maxGreen > 0) {
+        const n = maxYellow / maxGreen;
+        R *= n;
+        G *= n;
+        B *= n;
+    }
+
+    // add the white back in
+    R += white;
+    G += white;
+    B += white;
+
+    // clamp + round to 0–255 ints
+    const clamp = (v) => Math.max(0, Math.min(255, Math.round(v)));
+    return [clamp(R), clamp(G), clamp(B)];
+}
+
 function adjustCircleSize(count) {
     let size;
     if (count <= 6) {
@@ -45,10 +97,14 @@ async function fetchPalette() {
             if (c.is_base) {
                 btn.classList.add("base-color");
             }
+
             btn.type = "button";
             btn.setAttribute("role", "listitem");
             btn.setAttribute("aria-label", c.name + " color");
-            btn.style.backgroundColor = `rgb(${c.r}, ${c.y}, ${c.b})`;
+
+            const [R, G, B] = rybToRgb(c.r, c.y, c.b);
+            btn.style.backgroundColor = `rgb(${R}, ${G}, ${B})`;
+
             btn.textContent = c.name;
 
             btn.onclick = () => {

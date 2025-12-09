@@ -34,15 +34,13 @@ def index() -> str:
             font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
             padding: 1.5rem;
             margin: 0;
-            background:
-            repeating-linear-gradient(
-                45deg,
-                #ffe5ec,
-                #ffe5ec 20px,
-                #fff9d9 20px,
-                #fff9d9 40px
-            );
             color: #222;
+    
+            background-image: url('images/grey-marbling.jpg');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
+            background-color: #cccccc;    /* fallback color if the image fails to load */
         }
 
         h1 {

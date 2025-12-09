@@ -25,14 +25,14 @@ async def lifespan(app: FastAPI):
     try:
         yield
     finally:
-        #ColorMixerService needs explicit cleanup
+        # ColorMixerService needs explicit cleanup
         logger.info("Application shutting down: clean up services")
-        #app.state.color_service.close()
+        # app.state.color_service.close()
         logger.info("Shutdown complete")
 #--- end Lifespan ---
 
 app = FastAPI(title = "MasterColorMixer", lifespan = lifespan)
-#service = ColorMixerService()
+# service = ColorMixerService()
 
 BASE_DIR = Path(__file__).resolve().parent
 templates_dir = BASE_DIR / "templates"
@@ -124,10 +124,10 @@ def mix_colors_endpoint(
 # --- Text-to-speech endpoint ---
 @app.post("/api/speak", response_model = SpeakResponse)
 def speak_endpoint(payload: SpeakRequest) -> SpeakResponse:
-    # If speak_color_name raises, return 500 to the client.
+    # if speak_color_name raises, return 500 to the client.
     try:
         speak_color_name(payload.name)
-    except Exception as e:  # you can narrow this later
+    except Exception as e: 
         raise HTTPException(status_code = 500, detail = f"TTS error: {e}")
 
     return SpeakResponse(spoken = True, name = payload.name)

@@ -21,5 +21,7 @@ def main() -> None:
     # loading from the current package
     uvicorn.run(fastapi_app, host = "127.0.0.1", port = 8000, reload = False)
 
+    #note: fast_api includes lifespan handler, uvicorn will perform startup/shutdown using that
+
 if __name__ == "__main__":
     main()

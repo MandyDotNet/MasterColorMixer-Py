@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>MasterColorMixer</title>
+    <script src="/static/app.js" defer></script>
+    <style>
+        :root {
+            --circle-size: 120px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            padding: 1.5rem;
+            margin: 0;
+            color: #222;
+            background-image: url("/images/grey-marbling.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
+            background-color: #cccccc; /* fallback color if the image fails to load */
+        }
+
+        h1 {
+            margin: 0 0 1rem 0;
+            font-size: 2.2rem;
+            text-align: center;
+        }
+
+        h2 {
+            margin: 0 0 0.75rem 0;
+            font-size: 1.5rem;
+        }
+
+        main {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        /* Card containers */
+        #palette-section,
+        #mix-section {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 1rem 1.25rem 1.25rem 1.25rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Palette */
+        #palette-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 0.75rem;
+        }
+
+        #palette-container-wrapper {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        #clearPaletteBtn {
+            padding: 0.7rem 1.2rem;
+            border-radius: 999px;
+            border: none;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            background: #f44336;
+            color: #ffffff;
+            min-width: 130px;
+        }
+
+            #clearPaletteBtn:focus-visible {
+                outline: 3px solid #000;
+                outline-offset: 2px;
+            }
+
+        #palette {
+            flex: 1;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            padding: 0.25rem;
+            min-height: 150px;
+            max-height: 150px;
+            align-items: center;
+        }
+
+        .color-btn {
+            width: var(--circle-size);
+            height: var(--circle-size);
+            border-radius: 999px;
+            border: 3px solid #333;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #111;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            outline: none;
+            padding: 0.25rem;
+            text-align: center;
+            background: #ddd;
+            touch-action: manipulation;
+        }
+
+            .color-btn:focus-visible {
+                outline: 4px solid #000;
+                outline-offset: 2px;
+            }
+
+            .color-btn.base-color {
+                box-shadow: 0 0 0 3px #00000088;
+            }
+
+        /* Mixing bowl */
+        #mix-header {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 0.5rem;
+        }
+
+        #mix-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: 0.75rem 1.6rem;
+            border-radius: 999px;
+            border: none;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+
+        #mixBtn {
+            background: #4caf50;
+            color: #ffffff;
+        }
+
+        #clearBowlBtn {
+            background: #ffc107;
+            color: #222;
+        }
+
+        .action-btn:focus-visible {
+            outline: 3px solid #000;
+            outline-offset: 2px;
+        }
+
+        .mix-bowl-wrapper {
+            background: #ffe9c7;
+            border-radius: 24px;
+            padding: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 210px;
+        }
+
+        .mix-bowl {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .mix-slot {
+            width: 140px;
+            height: 140px;
+            border-radius: 999px;
+            border: 3px dashed #777;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            background: #fafafa;
+            text-align: center;
+            padding: 0.5rem;
+        }
+
+            .mix-slot.filled {
+                border-style: solid;
+                color: #111;
+            }
+
+                .mix-slot.filled span {
+                    pointer-events: none;
+                }
+
+        #status {
+            margin-top: 0.9rem;
+            font-size: 1.05rem;
+            min-height: 1.4em;
+            text-align: center;
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding: 1rem;
+            }
+
+            .mix-bowl {
+                gap: 1.2rem;
+            }
+
+            .mix-slot {
+                width: 120px;
+                height: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>MasterColorMixer</h1>
+    <main>
+        <section id="palette-section" aria-label="Color palette">
+            <div id="palette-header">
+                <h2>Palette</h2>
+            </div>
+            <div id="palette-container-wrapper">
+                <button id="clearPaletteBtn"
+                        type="button"
+                        aria-label="Reset palette to starting colors">
+                    Reset Palette
+                </button>
+                <div id="palette"
+                     role="list"
+                     aria-label="Available colors"></div>
+            </div>
+        </section>
+
+        <section id="mix-section" aria-label="Mixing bowl">
+            <div id="mix-header">
+                <h2>Mixing Bowl</h2>
+            </div>
+
+            <div id="mix-buttons">
+                <button id="mixBtn" class="action-btn" type="button">
+                    Mix Colors
+                </button>
+                <button id="clearBowlBtn" class="action-btn" type="button">
+                    Clear Bowl
+                </button>
+            </div>
+
+            <div class="mix-bowl-wrapper">
+                <div class="mix-bowl" aria-label="Mixing slots">
+                    <div id="slotA"
+                         class="mix-slot"
+                         data-slot="A"
+                         aria-label="First color slot">
+                        Slot A
+                    </div>
+                    <div id="slotB"
+                         class="mix-slot"
+                         data-slot="B"
+                         aria-label="Second color slot">
+                        Slot B
+                    </div>
+                </div>
+            </div>
+
+            <div id="status" aria-live="polite"></div>
+        </section>
+    </main>
+</body>
+</html>

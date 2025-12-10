@@ -13,6 +13,7 @@ from pydantic import BaseModel
 from .core.mixing import ColorMixerService, MixResult
 from .data.repo import ColorRecord
 from .adapters.tts_pyttsx3 import speak_color_name
+from .adapters import tts_pyttsx3
 
 logger = logging.getLogger(__name__)
 
@@ -27,6 +28,14 @@ async def lifespan(app: FastAPI):
     finally:
         # ColorMixerService needs explicit cleanup
         logger.info("Application shutting down: clean up services")
+
+        # shutdown TTS worker
+        try:
+            # Call shutdown directly during FastAPI shutdown
+            tts_pyttsx3.shutdown(wait=True)
+        except Exception as e:
+            logger.exception("TTS shutdown failed: %s", e)
+
         # app.state.color_service.close()
         logger.info("Shutdown complete")
 #--- end Lifespan ---
@@ -122,12 +131,12 @@ def mix_colors_endpoint(
 
 
 # --- Text-to-speech endpoint ---
-@app.post("/api/speak", response_model = SpeakResponse)
+@app.post("/api/speak", response_model=SpeakResponse)
 def speak_endpoint(payload: SpeakRequest) -> SpeakResponse:
-    # if speak_color_name raises, return 500 to the client.
     try:
         speak_color_name(payload.name)
-    except Exception as e: 
-        raise HTTPException(status_code = 500, detail = f"TTS error: {e}")
+    except Exception as e:
+        logger.exception("TTS error for %r: %s", payload.name, e)
+        raise HTTPException(status_code=500, detail=f"TTS error: {e}")
 
-    return SpeakResponse(spoken = True, name = payload.name)
+    return SpeakResponse(spoken=True, name=payload.name)

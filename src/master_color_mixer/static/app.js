@@ -280,13 +280,18 @@ function setupPaletteDropZone() {
 
 async function speakColor(name) {
     try {
-        await fetch("/api/speak", {
+        const res = await fetch("/api/speak", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ name })
         });
+
+        if (!res.ok) {
+            const err = await res.json().catch(() => ({}));
+            console.error("TTS request failed:", res.status, err.detail || "");
+        }
     } catch (e) {
-        console.error("TTS error", e);
+        console.error("TTS network error", e);
     }
 }
 

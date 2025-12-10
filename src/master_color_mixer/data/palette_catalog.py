@@ -98,61 +98,23 @@ PARENT_MAP: Dict[str, Tuple[str, str]] = {
     "green": ("blue", "yellow"),
     "purple": ("red", "blue"),
 
-    #--- Tertiarie Classics ---
-    "red-orange": ("red", "orange"),
-    "yellow-orange": ("yellow", "orange"),
-    "yellow-green": ("yellow", "green"),
-    "blue-green": ("blue", "green"),
-    "blue-purple": ("blue", "magenta"), # slightly brighter blue-purple
-    "red-purple": ("red", "purple"),
+    "olive": ("orange", "green"),
+    "brown": ("orange", "purple"),
+    "grey": ("green", "purple"),
 
-    #--- Greens/Blues ---
-    "teal": ("cyan", "green"),
-    "mint": ("green", "ivory"),
-    "lime": ("yellow", "yellow-green"),
-    "sky-blue": ("blue", "mint"),
-    "azure": ("blue", "sky-blue"),
-    "aqua": ("green", "sky-blue"),
-    "turquoise": ("blue-green", "aqua"),
-    "emerald": ("green", "blue-green"),
-    "sage": ("green", "beige"),
-    "cyan": ("blue", "aqua"),
-    "periwinkle": ("blue", "lavender"),
-    "cerulean": ("blue", "azure"),
-    "seafoam": ("mint", "aqua"),
-    "chartreuse": ("yellow-green", "lime"),
+    "teal": ("blue", "green"),
+    "maroon": ("purple", "yellow"),
+    "magenta": ("purple", "red"),
+    "indigo": ("yellow", "maroon"),
+    "beige": ("brown", "yellow"),
+    "sienna": ("orange", "blue"),
+    "marine": ("blue", "magenta"),
+    "violet": ("marine", "purple"),
+    "mustard": ("orange", "yellow"),
 
-    #--- Reds/Pinks/Oragnes ---
-    "magenta": ("red", "violet"),
-    "scarlet": ("red", "yellow-orange"),
-    "tangerine": ("orange", "red-orange"),
-    "amber": ("yellow", "yellow-orange"),
-    "peach": ("orange", "ivory"),
-    "coral": ("orange", "magenta"),
-    "maroon": ("red", "onyx"),
-    "crimson": ("red", "indigo"),
-    "salmon": ("orange", "peach"),
-    "apricot": ("peach", "yellow"),
-    "fuchsia": ("magenta", "peach"),
-
-    #--- Purples ---
-    "lavender": ("purple", "ivory"),
-    "violet": ("purple", "blue"),
-    "amethyst": ("violet", "indigo"),
-    "lilac": ("lavender", "peach"),
-    "mauve": ("purple", "beige"),
-
-    #--- Neutrals ---
-    "sienna": ("orange", "green"),  # “brown” from orange + green
-    "beige": ("yellow", "sienna"),
-    "olive": ("green", "sienna"),
-    "ivory": ("yellow", "beige"),
-    "onyx": ("blue", "sienna"),
-    "taupe": ("beige", "onyx"),
-    "khaki": ("yellow", "taupe"),
-    "pewter": ("blue", "taupe"),
-    "ebony": ("onyx", "purple"),
-    "indigo": ("blue", "ebony"),
+    "black": ("olive", "brown"),
+    "black": ("olive", "grey"),
+    "black": ("grey", "brown"),
 }
 
 RYB_NAME_MAP: Dict[FrozenSet[str], str] = {

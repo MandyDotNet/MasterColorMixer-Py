@@ -3,7 +3,7 @@
 # --> https://webcolors.readthedocs.io/en/stable/contents.html
 
 from dataclasses import dataclass
-from typing import Dict, Iterable, Tuple, FrozenSet
+from typing import Dict, Iterable, Tuple, FrozenSet, List
 
 #decorate immutable class
 @dataclass(frozen=True)
@@ -27,63 +27,41 @@ EXTENDED_COLORS: Tuple[ColorDef, ...] = (
     ColorDef("green",           0, 255, 180),
     ColorDef("purple",        220,   0, 255),
 
-    #--- Tertiarie Classics ---
-    ColorDef("red-orange",    255, 140,   0),
-    ColorDef("yellow-orange", 255, 220,  80),
-    ColorDef("yellow-green",   80, 255, 120),
-    ColorDef("blue-green",      0, 180, 230),
-    ColorDef("blue-purple",   160,   0, 255),
-    ColorDef("red-purple",    255,   0, 160),
+    #--- Neutrals / Earthy Tones ---
+    ColorDef("white",      255, 255, 255),
+    ColorDef("brown",      150,  90,  40),
+    ColorDef("grey",       140, 140, 150),
+    ColorDef("beige",      230, 210, 180),
+    ColorDef("sienna",     160,  90,  40),
+    ColorDef("olive",      140, 160,  40),
+    ColorDef("mustard",    210, 180,  30),
+    ColorDef("gold",       230, 190,  40),
+    ColorDef("steel-grey", 120, 130, 140),
+    ColorDef("black",       15,  15,  20),
 
-    #--- Greens/Blues ---
-    ColorDef("teal",            0, 170, 170),
-    ColorDef("mint",            80, 255, 200),
-    ColorDef("lime",           140, 255, 100),
-    ColorDef("sky-blue",        80, 140, 255),
-    ColorDef("azure",           80, 120, 255),
-    ColorDef("turquoise",       40, 200, 210),
-    ColorDef("emerald",         20, 200,  80),
-    ColorDef("sage",           120, 180, 120),
-    ColorDef("aqua",            40, 220, 220),
-    ColorDef("cyan",            20, 200, 230),
-    ColorDef("periwinkle",     160, 140, 255),
-    ColorDef("cerulean",        20, 100, 220),
-    ColorDef("seafoam",         80, 230, 200),
-    ColorDef("chartreuse",     160, 255,  40),
+    #--- Blues / Greens / Cool Tones ---
+    ColorDef("turquoise",   40, 200, 210),
+    ColorDef("teal",         0, 170, 170),
+    ColorDef("marine",      10,  80, 150),
+    ColorDef("lime",       160, 255,  40),
+    ColorDef("mint",        80, 255, 200),
+    ColorDef("indigo",      40,  20, 120),
 
-    #--- Reds/Pinks/Oragnes ---
-    ColorDef("magenta",        255,   0, 255),
-    ColorDef("peach",          255, 180, 120),
-    ColorDef("coral",          255, 140, 120),
-    ColorDef("crimson",        180,   0,  40),
-    ColorDef("scarlet",        255,  40,   0),
-    ColorDef("maroon",         120,  20,  40),
-    ColorDef("fuchsia",        255,  40, 255),
-    ColorDef("salmon",         255, 160, 140),
-    ColorDef("tangerine",      255, 140,  40),
-    ColorDef("amber",          255, 200,  40),
-    ColorDef("apricot",        255, 200, 120),
-
-    #--- Purples ---
-    ColorDef("lavender",       220, 160, 255),
-    ColorDef("violet",         200,  80, 255),
-    ColorDef("amethyst",       180,  60, 255),
-    ColorDef("lilac",          220, 180, 255),
-    ColorDef("mauve",          180, 120, 200),
-
-    #--- Neutrals ---
-    ColorDef("beige",          230, 210, 180),
-    ColorDef("taupe",          160, 140, 120),
-    ColorDef("khaki",          190, 200, 140),
-    ColorDef("sienna",         160,  90,  40),
-    ColorDef("olive",          140, 160,  40),
-    ColorDef("ivory",          245, 240, 220),
-    ColorDef("onyx",            20,  20,  30),
-    ColorDef("pewter",         160, 170, 180),
-    ColorDef("ebony",           10,  10,  20),
-    ColorDef("indigo",          40,  20, 120),
-
+    #--- Reds / Warm Tones ---
+    ColorDef("magenta",    255,   0, 255),
+    ColorDef("pink",       255, 160, 190),
+    ColorDef("peach",      255, 180, 120),
+    ColorDef("maroon",     120,  20,  40),
+    ColorDef("crimson",    180,   0,  40),
+    ColorDef("violet",     200,  80, 255),
     )
+
+# predefined mixes that result in black
+BLACK_PARENTS: Tuple[Tuple[str, str], ...] = (
+    ("olive", "brown"),
+    ("olive", "grey"),
+    ("grey",  "brown"),
+)
 
 ALL_COLORS: Tuple[ColorDef, ...] = BASE_COLORS + EXTENDED_COLORS
 
@@ -102,7 +80,7 @@ PARENT_MAP: Dict[str, Tuple[str, str]] = {
     "brown": ("orange", "purple"),
     "grey": ("green", "purple"),
 
-    "teal": ("blue", "green"),
+    "turquoise": ("blue", "green"),
     "maroon": ("purple", "yellow"),
     "magenta": ("purple", "red"),
     "indigo": ("yellow", "maroon"),
@@ -111,11 +89,56 @@ PARENT_MAP: Dict[str, Tuple[str, str]] = {
     "marine": ("blue", "magenta"),
     "violet": ("marine", "purple"),
     "mustard": ("orange", "yellow"),
+    "peach": ("orange", "pink"),
+    "gold": ("sienna", "yellow"),
+    "crimson": ("magenta", "red"),
+    "steel-grey": ("grey", "blue"),
 
     "black": ("olive", "brown"),
     "black": ("olive", "grey"),
     "black": ("grey", "brown"),
+
+    "teal": ("white", "turquoise"),
+    "pink": ("white", "red"),
+    "lime": ("white", "green"),
+    "mint": ("white", "teal"),
 }
+
+# helper method: validate PARENT_MAP
+def validate_parent_map(parent_map: Dict[str, Tuple[str, str]]) -> None:
+    # All valid color names (lowercase) from the palette
+    defined_names = set(_COLOR_BY_NAME.keys())
+
+    for raw_child, (raw_p1, raw_p2) in parent_map.items():
+        child = raw_child.lower()
+        p1 = raw_p1.lower()
+        p2 = raw_p2.lower()
+
+        # every child exists as a defined color
+        if child not in defined_names:
+            raise ValueError(
+                f"PARENT_MAP child '{raw_child}' has no ColorDef defined."
+            )
+
+        # every parent exists as a defined color
+        if p1 not in defined_names:
+            raise ValueError(
+                f"PARENT_MAP parent '{raw_p1}' for '{raw_child}' "
+                f"has no ColorDef defined."
+            )
+
+        if p2 not in defined_names:
+            raise ValueError(
+                f"PARENT_MAP parent '{raw_p2}' for '{raw_child}' "
+                f"has no ColorDef defined."
+            )
+
+        # no color lists itself as a parent
+        if child == p1 or child == p2:
+            raise ValueError(
+                f"PARENT_MAP entry '{raw_child}' "
+                f"cannot use itself as a parent ({raw_p1}, {raw_p2})."
+            )
 
 RYB_NAME_MAP: Dict[FrozenSet[str], str] = {
     frozenset({p1, p2}): child
@@ -157,6 +180,9 @@ def mix_colors(name_a: str, name_b: str) -> ColorDef:
     # case: self-mix
     if na == nb: 
         return color_a
+
+    if (color_a, color_b) in BLACK_PARENTS or (color_a, color_b) in BLACK_PARENTS:
+        return _COLOR_BY_NAME["black"]
     
     key = frozenset({na, nb})
 

@@ -33,17 +33,17 @@ EXTENDED_COLORS: Tuple[ColorDef, ...] = (
     ColorDef("grey",       128, 128, 128),
     ColorDef("beige",      230, 210, 180),
     ColorDef("sienna",     160,  82,  45),
-    ColorDef("olive",      128, 128,   0),
-    ColorDef("mustard",    255, 219,  88),
-    ColorDef("gold",       255, 223,   0),
-    ColorDef("amber",      255, 126,   0),
+    ColorDef("olive",      161, 151,  18), # check in testing
+    ColorDef("mustard",    168, 142,  35), # check in testing
+    ColorDef("gold",       235, 203,  80), # check in testing
+    ColorDef("amber",      155, 191,   0), # check in testing / may need 227,172,34
     ColorDef("steel-grey",  67,  70,  75),
     ColorDef("black",        0,   0,   0),
 
     #--- Blues / Greens / Cool Tones ---
-    ColorDef("turquoise",   64, 244, 208),
+    ColorDef("turquoise",   18, 161, 149), #this looks like lime, 18,161,149
     ColorDef("teal",         28, 88, 132),
-    ColorDef("marine-blue",      10,  80, 150),
+    ColorDef("marine-blue", 10,  80, 150),
     ColorDef("lime",        50, 205,  50),
     ColorDef("mint",        62, 180, 137),
     ColorDef("indigo",     111,   0, 255),
@@ -62,7 +62,11 @@ BLACK_PARENTS: Tuple[Tuple[str, str], ...] = (
     ("olive", "brown"),
     ("olive", "grey"),
     ("grey",  "brown"),
-)
+) #TODO - FIX this is not working to make black
+
+#TODO - multiple ways to make brown
+#   LIKE red,green & orange,purple
+# remove brown from PARENT_MAP and implement like fixed BLACK_PARENTS
 
 ALL_COLORS: Tuple[ColorDef, ...] = BASE_COLORS + EXTENDED_COLORS
 

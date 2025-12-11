@@ -26,8 +26,14 @@ class ColorMixerService:
     # mix two colors and store new color if capacity allows
     def mix(self, color_a: str, color_b: str) -> MixResult:
         result_color = mix_colors(color_a, color_b)
+        result_name = result_color.name.lower()
 
-        added = self._repo.add_color(result_color)
+        # Black / White are unlockable, but not added to palette
+        if result_name in ("black", "white"):
+            added = False
+        else:
+            added = self._repo.add_color(result_color)
+
         palette_size = len(self._repo.load_palette())
 
         return MixResult(

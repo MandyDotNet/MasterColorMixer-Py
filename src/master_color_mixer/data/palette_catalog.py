@@ -3,7 +3,7 @@
 # --> https://webcolors.readthedocs.io/en/stable/contents.html
 
 from dataclasses import dataclass
-from typing import Dict, Iterable, Tuple, FrozenSet, List
+from typing import Dict, Iterable, Tuple, FrozenSet, List, Set
 
 #decorate immutable class
 @dataclass(frozen=True)
@@ -58,15 +58,18 @@ EXTENDED_COLORS: Tuple[ColorDef, ...] = (
     )
 
 # predefined mixes that result in black, not to be added to ALL_COLORS
-BLACK_PARENTS: Tuple[Tuple[str, str], ...] = (
-    ("olive", "brown"),
-    ("olive", "grey"),
-    ("grey",  "brown"),
+BLACK_MIXES: Tuple[FrozenSet[str], ...] = (
+    frozenset({"olive", "brown"}),
+    frozenset({"olive", "grey"}),
+    frozenset({"grey",  "brown"}),
 ) #TODO - FIX this is not working to make black
 
-#TODO - multiple ways to make brown
-#   LIKE red,green & orange,purple
-# remove brown from PARENT_MAP and implement like fixed BLACK_PARENTS
+# explicit name mappings that have more than one path to create
+EXTRA_NAME_MIXES: Dict[FrozenSet[str], str] = {
+    frozenset({"red", "green"}): "brown",
+    frozenset({"blue", "orange"}): "brown",
+    frozenset({"yellow", "purple"}): "brown",
+}
 
 ALL_COLORS: Tuple[ColorDef, ...] = BASE_COLORS + EXTENDED_COLORS
 
@@ -143,9 +146,12 @@ def validate_parent_map(parent_map: Dict[str, Tuple[str, str]]) -> None:
             )
 
 RYB_NAME_MAP: Dict[FrozenSet[str], str] = {
-    frozenset({p1, p2}): child
+    frozenset({p1.lower(), p2.lower()}): child.lower()
     for child, (p1, p2) in PARENT_MAP.items()
 }
+
+# extend with extra name mixes, later enries override earlier ones if duplicate keys
+RYB_NAME_MAP.update(EXTRA_NAME_MIXES)
 
 # helper method: custom map to return predefined name, or a generic 'a/b mix' label
 def get_ryb_mix_name(name_a: str, name_b: str) -> str:
@@ -157,6 +163,7 @@ def get_ryb_mix_name(name_a: str, name_b: str) -> str:
         return RYB_NAME_MAP[key]
 
     sorted_names = sorted(list(key))
+    # I don't know if I like this. If I could change it, I would return "try something else"
     return f"{sorted_names[0]}/{sorted_names[1]} mix"
 
 
@@ -183,7 +190,8 @@ def mix_colors(name_a: str, name_b: str) -> ColorDef:
     if na == nb: 
         return color_a
 
-    if (color_a, color_b) in BLACK_PARENTS or (color_a, color_b) in BLACK_PARENTS:
+    # case: mixes that yeild black
+    if frozenset({na, nb}) in BLACK_MIXES:
         return _COLOR_BY_NAME["black"]
     
     key = frozenset({na, nb})

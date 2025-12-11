@@ -41,7 +41,7 @@ EXTENDED_COLORS: Tuple[ColorDef, ...] = (
     ColorDef("black",        0,   0,   0),
 
     #--- Blues / Greens / Cool Tones ---
-    ColorDef("turquoise",   18, 161, 149), #this looks like lime, 18,161,149
+    ColorDef("turquoise",   18, 161, 149), #check in testing
     ColorDef("teal",         28, 88, 132),
     ColorDef("marine-blue", 10,  80, 150),
     ColorDef("lime",        50, 205,  50),
@@ -62,7 +62,7 @@ BLACK_MIXES: Tuple[FrozenSet[str], ...] = (
     frozenset({"olive", "brown"}),
     frozenset({"olive", "grey"}),
     frozenset({"grey",  "brown"}),
-) #TODO - FIX this is not working to make black
+)
 
 # explicit name mappings that have more than one path to create
 EXTRA_NAME_MIXES: Dict[FrozenSet[str], str] = {

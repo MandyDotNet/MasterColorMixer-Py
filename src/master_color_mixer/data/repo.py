@@ -32,11 +32,12 @@ class PaletteRepository:
             current.execute(
                 """
                 CREATE TABLE IF NOT EXISTS palette (
-                    name TEXT PRIMARY KEY,
-                    r INTEGER NOT NULL,
-                    y INTEGER NOT NULL,
-                    b INTEGER NOT NULL,
-                    is_base INTEGER NOT NULL DEFAULT 0
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT UNIQUE,
+                r INTEGER NOT NULL,
+                y INTEGER NOT NULL,
+                b INTEGER NOT NULL,
+                is_base INTEGER NOT NULL DEFAULT 0
                 )
                 """
             )
@@ -63,8 +64,8 @@ class PaletteRepository:
             current = connection.cursor()
             current.execute(
                 "SELECT name, r, y, b, is_base "
-                "FROM palette ORDER BY is_base DESC, name ASC" # order by base first then names
-                ) # possible todo - order by an ID so that the unlock order is preserved in palette
+                "FROM palette ORDER BY id ASC" # order by ID, so create order is preserved
+                )
             rows = current.fetchall()
         finally:
             connection.close()

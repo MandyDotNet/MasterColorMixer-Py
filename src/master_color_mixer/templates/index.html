@@ -3,7 +3,13 @@
 <head>
     <meta charset="utf-8">
     <title>MasterColorMixer</title>
+
+    <!-- Confetti library for reward effect -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <!-- App script -->
     <script src="/static/app.js" defer></script>
+
     <style>
         * {
             box-sizing: border-box;
@@ -49,26 +55,50 @@
         }
 
         /* palette panel */
-        #palette {
-            width: 100%; 
-            max-width: 100%; 
-            box-sizing: border-box; 
-            padding: 8px; 
-            display: block; /* JS will switch to grid when it runs */
-            align-self: stretch;
+        .panel-palette {
+            min-height: 260px; /* more vertical space for bubbles + mystery colors */
         }
 
-        .panel-palette {
-            min-height: 190px;
+        #palette {
+            width: 100%;
+            max-width: 100%;
+            padding: 8px;
+            display: block; /* JS switches to grid when it runs */
+            align-self: stretch;
         }
 
         .panel-header {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            gap: 1rem;
-            flex-wrap: wrap;
-            margin-bottom: 0.75rem;
+            justify-content: flex-start;
+            margin-bottom: 0.5rem;
+        }
+
+        .palette-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            align-items: flex-start;
+            justify-content: flex-start;
+            min-width: 120px; /* similar width to mix-controls */
+        }
+
+        /* row that holds controls on the left and palette on the right */
+        .palette-layout {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5rem;
+        }
+
+        /* area where palette bubbles sit */
+        .palette-wrapper {
+            flex: 1;
+            display: flex;
+            align-items: center;
+        }
+
+        #palette {
+            width: 100%;
         }
 
         #clearPaletteBtn {
@@ -106,7 +136,6 @@
             cursor: pointer;
             box-sizing: border-box;
             outline: none;
-            /* keep a fallback square before JS runs */
             aspect-ratio: 1 / 1;
             display: inline-flex;
             align-items: center;
@@ -115,10 +144,10 @@
             overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis;
-            /* subtle visual */
             box-shadow: 0 1px 2px rgba(0,0,0,0.15);
             transition: transform .08s ease;
         }
+
             .color-bubble:active {
                 transform: scale(.98);
             }
@@ -130,19 +159,26 @@
                 line-height: 1;
             }
 
-        /* mixing bowl */
+        /* mixing bowl section */
         #mix-header {
             display: flex;
             justify-content: center;
             margin-bottom: 0.5rem;
         }
 
-        #mix-buttons {
+        .mix-layout {
             display: flex;
-            justify-content: center;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        #mix-controls {
+            display: flex;
+            flex-direction: column;
             gap: 0.75rem;
-            margin-bottom: 0.75rem;
-            flex-wrap: wrap;
+            align-items: flex-start;
+            justify-content: flex-start;
+            min-width: 120px;
         }
 
         .action-btn {
@@ -178,6 +214,7 @@
             justify-content: center;
             align-items: center;
             height: 210px;
+            flex: 1;
         }
 
         .mix-bowl {
@@ -218,9 +255,31 @@
             text-align: center;
         }
 
-        @media (max-width: 640px) {
+        /* Mystery color area under Reset */
+        #mystery-colors {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+            #mystery-colors .color-bubble {
+                width: 52px;
+                height: 52px;
+                border-radius: 50%;
+            }
+
+        @media (max-width: 768px) {
             body {
                 padding: 1rem;
+            }
+
+            .mix-layout {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .mix-bowl-wrapper {
+                width: 100%;
             }
 
             .mix-bowl {
@@ -241,54 +300,86 @@
 </head>
 <body>
     <h1>MasterColorMixer</h1>
+
     <main>
-        <!--- Color Palette --->
-        <section class="panel panel-palette" aria-label="Color palette">
+        <!-- Color Palette -->
+        <section class="panel panel-palette" aria-label="palette">
+            <!-- Header row just for the title -->
             <div class="panel-header">
-                <h2>Palette</h2>
-                <button id="clearPaletteBtn"
-                        type="button"
-                        aria-label="Reset palette to starting colors">
-                    Reset Palette
-                </button>
+                <h2>Color Palette</h2>
             </div>
 
-            <!--- JS injected color circles --->
-            <div id="palette"
-                 class="palette-grid"
-                 role="list"
-                 aria-label="Available colors">
+            <!-- Layout row: left controls, right palette area -->
+            <div class="palette-layout">
+                <!-- Reset + mystery colors column (mirrors mix-controls) -->
+                <div class="palette-controls" aria-label="Palette controls">
+                    <button id="clearPaletteBtn"
+                            type="button"
+                            aria-label="Reset palette to starting colors">
+                        Reset Palette
+                    </button>
+
+                    <!-- Mystery colors (do not count toward palette capacity) -->
+                    <div id="mystery-colors" aria-label="Mystery colors">
+                        <!-- top mystery circle: becomes black when unlocked -->
+                        <button id="mystery-black"
+                                class="color-bubble"
+                                type="button"
+                                aria-label="Mystery color 1">
+                            <span>?</span>
+                        </button>
+                        <!-- bottom mystery circle: becomes white when unlocked -->
+                        <button id="mystery-white"
+                                class="color-bubble"
+                                type="button"
+                                aria-label="Mystery color 2">
+                            <span>?</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Palette bubbles area -->
+                <div class="palette-wrapper">
+                    <!-- JS-injected color circles -->
+                    <div id="palette"
+                         class="palette-grid"
+                         role="list"
+                         aria-label="Available colors">
+                    </div>
+                </div>
             </div>
         </section>
 
-        <!--- Mixing Bowl --->
+        <!-- Mixing Bowl -->
         <section id="mix-section" class="panel" aria-label="Mixing bowl">
             <div id="mix-header">
                 <h2>Mixing Bowl</h2>
             </div>
 
-            <div id="mix-buttons">
-                <button id="mixBtn" class="action-btn" type="button">
-                    Mix
-                </button>
-                <button id="clearBowlBtn" class="action-btn" type="button">
-                    Clear
-                </button>
-            </div>
+            <div class="mix-layout">
+                <!-- Controls on the left -->
+                <div id="mix-controls" aria-label="Mixing controls">
+                    <button id="mixBtn" class="action-btn" type="button">
+                        Mix
+                    </button>
+                    <button id="clearBowlBtn" class="action-btn" type="button">
+                        Clear
+                    </button>
+                </div>
 
-            <div class="mix-bowl-wrapper">
-                <div class="mix-bowl" aria-label="Mixing slots">
-                    <div id="slotA"
-                         class="mix-slot"
-                         data-slot="A"
-                         aria-label="First color slot">
-                        Slot A
-                    </div>
-                    <div id="slotB"
-                         class="mix-slot"
-                         data-slot="B"
-                         aria-label="Second color slot">
-                        Slot B
+                <!-- Large beige drop zone for the mixing bowl -->
+                <div class="mix-bowl-wrapper" aria-label="Drop colors here to mix">
+                    <div class="mix-bowl" aria-label="Mixing slots">
+                        <div id="slotA"
+                             class="mix-slot"
+                             data-slot="A"
+                             aria-label="First color slot">
+                        </div>
+                        <div id="slotB"
+                             class="mix-slot"
+                             data-slot="B"
+                             aria-label="Second color slot">
+                        </div>
                     </div>
                 </div>
             </div>

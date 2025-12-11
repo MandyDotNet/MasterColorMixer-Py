@@ -23,40 +23,41 @@ BASE_COLORS: Tuple[ColorDef, ...] = (
 
 EXTENDED_COLORS: Tuple[ColorDef, ...] = (
     #--- Secondaries ---
-    ColorDef("orange",        255, 180,   0),
-    ColorDef("green",           0, 255, 180),
-    ColorDef("purple",        220,   0, 255),
+    ColorDef("orange",     255, 180,   0),
+    ColorDef("green",        0, 255, 180),
+    ColorDef("purple",     220,   0, 255),
 
     #--- Neutrals / Earthy Tones ---
     ColorDef("white",      255, 255, 255),
     ColorDef("brown",      150,  90,  40),
-    ColorDef("grey",       140, 140, 150),
+    ColorDef("grey",       128, 128, 128),
     ColorDef("beige",      230, 210, 180),
-    ColorDef("sienna",     160,  90,  40),
-    ColorDef("olive",      140, 160,  40),
-    ColorDef("mustard",    210, 180,  30),
-    ColorDef("gold",       230, 190,  40),
-    ColorDef("steel-grey", 120, 130, 140),
-    ColorDef("black",       15,  15,  20),
+    ColorDef("sienna",     160,  82,  45),
+    ColorDef("olive",      128, 128,   0),
+    ColorDef("mustard",    255, 219,  88),
+    ColorDef("gold",       255, 223,   0),
+    ColorDef("amber",      255, 126,   0),
+    ColorDef("steel-grey",  67,  70,  75),
+    ColorDef("black",        0,   0,   0),
 
     #--- Blues / Greens / Cool Tones ---
-    ColorDef("turquoise",   40, 200, 210),
-    ColorDef("teal",         0, 170, 170),
-    ColorDef("marine",      10,  80, 150),
-    ColorDef("lime",       160, 255,  40),
-    ColorDef("mint",        80, 255, 200),
-    ColorDef("indigo",      40,  20, 120),
+    ColorDef("turquoise",   64, 244, 208),
+    ColorDef("teal",         28, 88, 132),
+    ColorDef("marine-blue",      10,  80, 150),
+    ColorDef("lime",        50, 205,  50),
+    ColorDef("mint",        62, 180, 137),
+    ColorDef("indigo",     111,   0, 255),
 
     #--- Reds / Warm Tones ---
     ColorDef("magenta",    255,   0, 255),
-    ColorDef("pink",       255, 160, 190),
-    ColorDef("peach",      255, 180, 120),
-    ColorDef("maroon",     120,  20,  40),
-    ColorDef("crimson",    180,   0,  40),
-    ColorDef("violet",     200,  80, 255),
+    ColorDef("pink",       255, 192, 203),
+    ColorDef("peach",      255, 229, 180),
+    ColorDef("maroon",     128,   0,   0),
+    ColorDef("crimson",    220,  20,  60),
+    ColorDef("violet",     127,   0, 255),
     )
 
-# predefined mixes that result in black
+# predefined mixes that result in black, not to be added to ALL_COLORS
 BLACK_PARENTS: Tuple[Tuple[str, str], ...] = (
     ("olive", "brown"),
     ("olive", "grey"),
@@ -80,23 +81,20 @@ PARENT_MAP: Dict[str, Tuple[str, str]] = {
     "brown": ("orange", "purple"),
     "grey": ("green", "purple"),
 
+    "indigo": ("blue", "purple"),
     "turquoise": ("blue", "green"),
     "maroon": ("purple", "yellow"),
     "magenta": ("purple", "red"),
-    "indigo": ("yellow", "maroon"),
+    "amber": ("yellow", "maroon"),
     "beige": ("brown", "yellow"),
     "sienna": ("orange", "blue"),
-    "marine": ("blue", "magenta"),
-    "violet": ("marine", "purple"),
+    "marine-blue": ("blue", "magenta"),
+    "violet": ("marine-blue", "purple"),
     "mustard": ("orange", "yellow"),
     "peach": ("orange", "pink"),
     "gold": ("sienna", "yellow"),
     "crimson": ("magenta", "red"),
     "steel-grey": ("grey", "blue"),
-
-    "black": ("olive", "brown"),
-    "black": ("olive", "grey"),
-    "black": ("grey", "brown"),
 
     "teal": ("white", "turquoise"),
     "pink": ("white", "red"),

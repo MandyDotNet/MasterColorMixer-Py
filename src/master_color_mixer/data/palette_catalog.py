@@ -90,7 +90,7 @@ PARENT_MAP: Dict[str, Tuple[str, str]] = {
 
     "indigo": ("blue", "purple"),
     "turquoise": ("blue", "green"),
-    "maroon": ("purple", "yellow"),
+    "maroon": ("blue", "brown"),
     "magenta": ("purple", "red"),
     "amber": ("yellow", "maroon"),
     "beige": ("brown", "yellow"),

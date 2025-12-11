@@ -12,6 +12,7 @@ function setStatus(msg) {
     const status = document.getElementById("status");
     status.textContent = msg || "";
 }
+
 /*
  * RYB to RGB conversion
  * adapted from:
@@ -67,7 +68,7 @@ function rybToRgb(r, y, b) {
 // decide if text on top of a color should be black or white
 function idealTextColor(r, g, b) {
     const luminanceThreshold = 150;
-    const luminance = (0.299 * r + 0.587 * g + 0.114 * b);
+    const luminance = 0.299 * r + 0.587 * g + 0.114 * b;
     return luminance > luminanceThreshold ? "#000000" : "#FFFFFF";
 }
 
@@ -76,17 +77,21 @@ function layoutPalette(container, count) {
     if (!container) return;
 
     const MAX_CAPACITY = 20;
-    const MAX_COLUMNS = 10; // allow up to 10 columns
-    const GAP = 8;          // gap between bubbles
+    const MAX_COLUMNS = 7;
+    const GAP = 10;         // buffer between bubbles
     const MIN_SIZE = 32;    // minimum bubble diameter
-    const MAX_SIZE = 120;   // maximum bubble diameter
+    const MAX_SIZE = 110;   // cap 
 
     const effectiveCount = Math.min(count, MAX_CAPACITY);
     const columns = Math.max(1, Math.min(MAX_COLUMNS, effectiveCount));
 
-    const containerWidth = Math.max(0, container.clientWidth);
+    // measurement for flex/grid layouts
+    const rect = container.getBoundingClientRect();
+    const containerWidth = Math.max(0, rect.width);
+
     const totalGap = (columns - 1) * GAP;
-    const rawSize = columns > 0 ? Math.floor((containerWidth - totalGap) / columns) : MIN_SIZE;
+    const rawSize =
+        columns > 0 ? Math.floor((containerWidth - totalGap) / columns) : MIN_SIZE;
     const size = Math.max(MIN_SIZE, Math.min(MAX_SIZE, rawSize));
 
     container.style.display = "grid";
@@ -103,11 +108,7 @@ function layoutPalette(container, count) {
         btn.style.display = "inline-flex";
         btn.style.alignItems = "center";
         btn.style.justifyContent = "center";
-        //btn.style.overflow = "hidden";
-        //btn.style.textOverflow = "ellipsis";
-        //btn.style.whiteSpace = "nowrap";
 
-        // slightly larger default font to stay readable
         const fontSize = Math.max(12, Math.floor(size / 4));
         btn.style.fontSize = `${fontSize}px`;
 
@@ -118,8 +119,8 @@ function layoutPalette(container, count) {
     });
 }
 
-/*  Palette fetch & render  */
 
+/*  Palette fetch & render  */
 async function fetchPalette() {
     try {
         const res = await fetch("/api/palette");
@@ -145,9 +146,11 @@ async function fetchPalette() {
         const MAX_CAPACITY = 20;
         const showCount = Math.min(data.length, MAX_CAPACITY);
 
-        // if the palette has just become full (or over capacity), speak a message once
+        // if the palette has just become full (or over capacity), speak + celebrate once
         if (data.length >= MAX_CAPACITY && prevSize < MAX_CAPACITY) {
-            speakColor("Your palette is full.");
+            speakColor("Great job! Your palette is full.");
+            launchConfetti();
+            playRewardSound();
         }
 
         // create a bubble button for each color (up to MAX_CAPACITY)
@@ -200,7 +203,6 @@ async function fetchPalette() {
 }
 
 /*  Mixing slots render */
-
 function renderSlots() {
     const slotADiv = document.getElementById("slotA");
     const slotBDiv = document.getElementById("slotB");
@@ -251,7 +253,6 @@ function renderSlot(el, value, emptyLabel) {
 }
 
 /*  Mixing bowl operations  */
-
 function clearBowl() {
     slotA = null;
     slotB = null;
@@ -276,7 +277,6 @@ function handleSlotDragStart(e) {
 }
 
 /*  Drag & Drop   */
-
 function setupBowlDropZones() {
     const slotADiv = document.getElementById("slotA");
     const slotBDiv = document.getElementById("slotB");
@@ -291,6 +291,9 @@ function setupBowlDropZones() {
 
         el.addEventListener("drop", (e) => {
             e.preventDefault();
+            // IMPORTANT: prevent the wrapper drop handler from also firing
+            e.stopPropagation();
+
             const dataStr = e.dataTransfer.getData("text/plain");
             if (!dataStr) return;
 
@@ -341,6 +344,47 @@ function setupBowlDropZones() {
     });
 }
 
+// mixing bowl drop zone
+function setupWideBowlDropZone() {
+    const wrapper = document.querySelector(".mix-bowl-wrapper");
+    if (!wrapper) return;
+
+    wrapper.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = "move";
+    });
+
+    wrapper.addEventListener("drop", (e) => {
+        e.preventDefault();
+
+        const dataStr = e.dataTransfer.getData("text/plain");
+        if (!dataStr) return;
+
+        let payload;
+        try {
+            payload = JSON.parse(dataStr);
+        } catch {
+            return;
+        }
+
+        // if both slots already filled:
+        if (slotA && slotB) {
+            setStatus("Two colors only. Clear one before adding more.");
+            speakColor("Mixing bowl full");
+            return;
+        }
+
+        if (payload.type === "palette") {
+            if (!slotA) slotA = payload.name;
+            else if (!slotB) slotB = payload.name;
+
+            speakColor(payload.name);
+            renderSlots();
+            setStatus("");
+        }
+    });
+}
+
 function setupPaletteDropZone() {
     const palette = document.getElementById("palette");
     if (!palette) return;
@@ -378,8 +422,74 @@ function setupPaletteDropZone() {
     });
 }
 
-/*  Text-to-speech  */
+/*  mystery black/white (do not count toward palette capacity) */
+function unlockBlack() {
+    const btn = document.getElementById("mystery-black");
+    if (!btn || btn.dataset.unlocked === "true") return;
 
+    const span = btn.querySelector("span");
+    btn.style.backgroundColor = "black";
+    btn.style.color = "#ffffff";
+    btn.setAttribute("aria-label", "Black color");
+    if (span) span.textContent = "black";
+
+    btn.draggable = true;
+    btn.addEventListener("dragstart", (e) => {
+        e.dataTransfer.setData(
+            "text/plain",
+            JSON.stringify({ type: "palette", name: "black" })
+        );
+        e.dataTransfer.effectAllowed = "move";
+    });
+
+    btn.addEventListener("click", () => speakColor("black"));
+    btn.dataset.unlocked = "true";
+}
+
+function unlockWhite() {
+    const btn = document.getElementById("mystery-white");
+    if (!btn || btn.dataset.unlocked === "true") return;
+
+    const span = btn.querySelector("span");
+    btn.style.backgroundColor = "white";
+    btn.style.color = "#000000";
+    btn.setAttribute("aria-label", "White color");
+    if (span) span.textContent = "white";
+
+    btn.draggable = true;
+    btn.addEventListener("dragstart", (e) => {
+        e.dataTransfer.setData(
+            "text/plain",
+            JSON.stringify({ type: "palette", name: "white" })
+        );
+        e.dataTransfer.effectAllowed = "move";
+    });
+
+    btn.addEventListener("click", () => speakColor("white"));
+    btn.dataset.unlocked = "true";
+}
+
+function setupMysteryColorButtons() {
+    // initial state: grey placeholders with "?"
+    const config = [
+        { id: "mystery-black" },
+        { id: "mystery-white" },
+    ];
+
+    config.forEach(({ id }) => {
+        const btn = document.getElementById(id);
+        if (!btn) return;
+
+        const span = btn.querySelector("span");
+        btn.style.backgroundColor = "#dddddd";
+        btn.style.color = "#000000";
+        btn.draggable = false;
+        btn.dataset.unlocked = "false";
+        if (span) span.textContent = "?";
+    });
+}
+
+/*  Text-to-speech  */
 async function speakColor(name) {
     try {
         const res = await fetch("/api/speak", {
@@ -402,7 +512,6 @@ async function speakColor(name) {
 }
 
 /*  Mixing & palette    */
-
 async function mix() {
     if (!slotA || !slotB) {
         setStatus("Pick two colors first.");
@@ -429,6 +538,12 @@ async function mix() {
         await fetchPalette();
         await speakColor(resultName);
 
+        // unlock black + white when black is discovered
+        if (resultName.toLowerCase() === "black") {
+            unlockBlack();
+            unlockWhite();
+        }
+
         // automatically clear the bowl after each successful mix
         clearBowl();
     } catch (e) {
@@ -448,18 +563,60 @@ async function clearPalette() {
     }
 }
 
-/*  Bootstrapping   */
+/* Reward */
+function launchConfetti() {
+    if (typeof confetti !== "function") return;
 
+    const duration = 2000;
+    const end = Date.now() + duration;
+
+    (function frame() {
+        confetti({
+            particleCount: 6,
+            spread: 70,
+        });
+        if (Date.now() < end) {
+            requestAnimationFrame(frame);
+        }
+    })();
+}
+
+function playRewardSound() {
+    const audio = new Audio("/sounds/reward.wav");
+    audio.play().catch(() => {
+    });
+}
+
+/*  Bootstrapping   */
 document.addEventListener("DOMContentLoaded", () => {
     const mixBtn = document.getElementById("mixBtn");
     const clearBowlBtn = document.getElementById("clearBowlBtn");
     const clearPaletteBtn = document.getElementById("clearPaletteBtn");
 
-    if (mixBtn) mixBtn.addEventListener("click", mix);
-    if (clearBowlBtn) clearBowlBtn.addEventListener("click", clearBowl);
-    if (clearPaletteBtn) clearPaletteBtn.addEventListener("click", clearPalette);
+    if (mixBtn) {
+        mixBtn.addEventListener("click", mix);
+        mixBtn.addEventListener("mouseenter", () =>
+            speakColor("Mix colors")
+        );
+    }
 
+    if (clearBowlBtn) {
+        clearBowlBtn.addEventListener("click", clearBowl);
+        clearBowlBtn.addEventListener("mouseenter", () =>
+            speakColor("Clear mix")
+        );
+    }
+
+    if (clearPaletteBtn) {
+        clearPaletteBtn.addEventListener("click", clearPalette);
+        clearPaletteBtn.addEventListener("mouseenter", () =>
+            speakColor("Reset palette")
+        );
+    }
+
+    setupMysteryColorButtons();
     setupBowlDropZones();
+    setupWideBowlDropZone();
     setupPaletteDropZone();
     fetchPalette();
     renderSlots();
@@ -468,7 +625,8 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener("resize", () => {
         const container = document.getElementById("palette");
         if (container) {
-            const count = container.children.length ||
+            const count =
+                container.children.length ||
                 (lastPaletteData ? Math.min(lastPaletteData.length, 20) : 0);
             layoutPalette(container, count);
         }

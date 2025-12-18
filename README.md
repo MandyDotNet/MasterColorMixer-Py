@@ -5,8 +5,11 @@
   <h1>MasterColorMixer</h1>
   <p><em>A toddler-friendly color mixing web app built with Python 3.12+, FastAPI, and a simple web UI.</em></p>
 </div>
-
-
+<div>
+  <a href="https://www.youtube.com/embed/PaL-P6WvlE0?si=q3we8Tnn6E42hYZI">
+    Amanda Crotty Presentation Video for Course COP 4504
+  </a>
+</div>
 <h2 id="toc">Table of Contents</h2>
 <ol>
   <li><a href="#charter">Project Charter</a></li>
